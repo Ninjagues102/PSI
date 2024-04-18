@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <h1 mat-dialog-title>Register a new website</h1>
+  <div mat-dialog-content>
+    <p>Register a new website to analyze its accessibility.</p>
+    <mat-form-field [hideRequiredMarker]="true" appearance="outline"
+                    hintLabel="Insert the websites domain without the protocol prefix.">
+      <mat-label>Website's domain</mat-label>
+      <input [formControl]="domainControl" matInput placeholder="Ex. v16.material.angular.io" required>
+      <mat-error *ngIf="domainControl.invalid">{{ getErrorMessage() }}</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="actions" mat-dialog-actions>
+    <button (click)="onCancel()" color="primary" mat-stroked-button>Cancel</button>
+    <button [disabled]="isDisabled()" [mat-dialog-close]="data.domain" color="primary" mat-flat-button>Register</button>
+  </div>
+</div>

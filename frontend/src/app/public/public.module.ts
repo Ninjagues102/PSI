@@ -1,32 +1,36 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { DashboardComponent } from "./dashboard/dashboard.component";
-import { ToolbarItemComponent } from './toolbar-item/toolbar-item.component';
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { RouterLink } from "@angular/router";
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ToolbarComponent } from "./toolbar/toolbar.component";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    ToolbarItemComponent,
+    ToolbarComponent,
   ],
   imports: [
     CommonModule,
     MatButtonModule,
     MatIconModule,
+    MatDialogModule,
     RouterLink,
     MatInputModule,
     MatFormFieldModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatToolbarModule,
   ],
   exports: [
     DashboardComponent,
-    ToolbarItemComponent,
+    ToolbarComponent,
   ],
 })
 export class PublicModule {}
