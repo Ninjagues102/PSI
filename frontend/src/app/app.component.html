@@ -1,6 +1,12 @@
-<h1>Welcome to our site!!</h1>
+<mat-toolbar color="primary">
+  <span>Accessibility Advisor</span>
+  <span class="spacer"></span>
+  <app-toolbar-item text="New Website" icon="add" url="/websites"></app-toolbar-item>  <!-- TODO placeholder URL - will finish later-->
+</mat-toolbar>
+
 <nav>
     <a routerLink="/websites">Lista de Websites</a>
     <a routerLink="/websites_monitorizados">Websites Monitorizados</a>
 </nav>
+
 <router-outlet></router-outlet>
