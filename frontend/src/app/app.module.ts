@@ -6,17 +6,22 @@ import { AppComponent } from './app.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatCardModule} from '@angular/material/card';
 import { WebsitesComponent } from './websites/websites.component';
+import { WebsitesMonitorizadosComponent } from './websites-monitorizados/websites-monitorizados.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    WebsitesComponent
+    WebsitesComponent,
+    WebsitesMonitorizadosComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MatSlideToggleModule,
-    MatCardModule
+    MatCardModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
