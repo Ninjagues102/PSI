@@ -1,1 +1,7 @@
-<p>dashboard works!</p>
+<form class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Url</mat-label>
+      <input type="url" matInput [formControl]="urlFormControl" [errorStateMatcher]="matcher"
+             placeholder="Ex. https://www.google.com">
+    </mat-form-field>
+  </form>
