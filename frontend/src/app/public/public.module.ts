@@ -5,7 +5,9 @@ import { ToolbarItemComponent } from './toolbar-item/toolbar-item.component';
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { RouterLink } from "@angular/router";
-
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,10 @@ import { RouterLink } from "@angular/router";
     MatButtonModule,
     MatIconModule,
     RouterLink,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     DashboardComponent,
