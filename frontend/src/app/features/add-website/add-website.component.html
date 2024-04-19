@@ -11,6 +11,6 @@
   </div>
   <div class="actions" mat-dialog-actions>
     <button (click)="onCancel()" color="primary" mat-stroked-button>Cancel</button>
-    <button [disabled]="isDisabled()" [mat-dialog-close]="data.domain" color="primary" mat-flat-button>Register</button>
+    <button [disabled]="domainControl.invalid" [mat-dialog-close]="domainControl.value" color="primary" mat-flat-button>Register</button>
   </div>
 </div>

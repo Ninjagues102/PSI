@@ -40,8 +40,4 @@ export class AddWebsiteComponent {
   onCancel(): void {
     this.dialogRef.close();
   }
-
-  isDisabled(): boolean {
-    return this.domainControl.invalid;
-  }
 }

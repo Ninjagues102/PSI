@@ -13,6 +13,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { PublicModule } from "./public/public.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FeaturesModule } from "./features/features.module";
+import { HttpClientModule } from "@angular/common/http";
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { FeaturesModule } from "./features/features.module";
     MatIconModule,
     PublicModule,
     FeaturesModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
