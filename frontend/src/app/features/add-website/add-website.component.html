@@ -1,16 +1,16 @@
 <div class="wrapper">
-  <h1 mat-dialog-title>Register a new website</h1>
+  <h1 mat-dialog-title>Regista um novo website</h1>
   <div mat-dialog-content>
-    <p>Register a new website to analyze its accessibility.</p>
+    <p>Regista um novo website para analisar a sua acessibilidade.</p>
     <mat-form-field [hideRequiredMarker]="true" appearance="outline"
-                    hintLabel="Insert the websites domain without the protocol prefix.">
-      <mat-label>Website's domain</mat-label>
+                    hintLabel="Insere o domínio do website sem o prefixo do protocolo.">
+      <mat-label>Domínio do website</mat-label>
       <input [formControl]="domainControl" matInput placeholder="Ex. v16.material.angular.io" required>
       <mat-error *ngIf="domainControl.invalid">{{ getErrorMessage() }}</mat-error>
     </mat-form-field>
   </div>
   <div class="actions" mat-dialog-actions>
-    <button (click)="onCancel()" color="primary" mat-stroked-button>Cancel</button>
-    <button [disabled]="domainControl.invalid" [mat-dialog-close]="domainControl.value" color="primary" mat-flat-button>Register</button>
+    <button (click)="onCancel()" color="primary" mat-stroked-button>Cancelar</button>
+    <button [disabled]="domainControl.invalid" [mat-dialog-close]="domainControl.value" color="primary" mat-flat-button>Registar</button>
   </div>
 </div>

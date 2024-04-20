@@ -32,9 +32,9 @@ export class AddWebsiteComponent {
 
   getErrorMessage(): string {
     if (this.domainControl.hasError("required")) {
-      return "The field is mandatory";
+      return "O campo é mandatório";
     }
-    return this.domainControl.hasError("domain") ? "Not a valid domain" : "test";
+    return this.domainControl.hasError("domain") ? "O domínio não é válido" : "";
   }
 
   onCancel(): void {

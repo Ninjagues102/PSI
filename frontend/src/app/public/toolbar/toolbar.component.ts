@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { AddWebsiteComponent } from "../../features/add-website/add-website.component";
 import { WebsiteService } from "../../core/website.service";
-import { Website } from "../../shared/models/website.model";
+import { Website, WebsiteStatus } from "../../shared/models/website.model";
 
 @Component({
   selector: "app-toolbar",
@@ -22,7 +22,7 @@ export class ToolbarComponent {
     dialogRef.afterClosed().subscribe((domain: string) => {
       const website: Website = {
         domain: domain,
-        status: "Por avaliar",
+        status: WebsiteStatus.REGISTERED,
       };
 
       this.websiteService.addWebsite(website).subscribe(_ => {});
