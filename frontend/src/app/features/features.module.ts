@@ -6,21 +6,23 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSelectModule } from "@angular/material/select";
 
 
 @NgModule({
   declarations: [
     AddWebsiteComponent,
   ],
-  imports: [
-    CommonModule,
-    MatInputModule,
-    FormsModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-  ],
+    imports: [
+        CommonModule,
+        MatInputModule,
+        FormsModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatInputModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+    ],
 })
 export class FeaturesModule {}

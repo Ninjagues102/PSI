@@ -1,9 +1,20 @@
 export interface Website {
   _id?: string;
+  protocol: Protocol;
   domain: string;
   status: WebsiteStatus;
   registryDate: String;
   lastEvaluationDate?: String
+}
+
+export interface WebsiteRegistration {
+  protocol: Protocol;
+  domain: string;
+}
+
+export enum Protocol {
+  HTTP = "http://",
+  HTTPS = "https://"
 }
 
 export enum WebsiteStatus {

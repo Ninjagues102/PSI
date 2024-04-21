@@ -1,6 +1,7 @@
-import { Component, Inject } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { Component } from "@angular/core";
+import { MatDialogRef } from "@angular/material/dialog";
 import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
+import { Protocol } from "../../shared/models/website.model";
 
 
 interface WebsiteData {
@@ -21,14 +22,13 @@ export function domainValidator(): ValidatorFn {
   styleUrls: [ "./add-website.component.sass" ],
 })
 export class AddWebsiteComponent {
-  domainControl: FormControl;
+  protocolControl: FormControl = new FormControl<Protocol>(Protocol.HTTPS, Validators.required)
+  domainControl: FormControl = new FormControl("", [ Validators.required, domainValidator() ]);
+  protocolOptions: Protocol[] = [Protocol.HTTP, Protocol.HTTPS]
 
   constructor(
     public dialogRef: MatDialogRef<AddWebsiteComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: WebsiteData,
-  ) {
-    this.domainControl = new FormControl("", [ Validators.required, domainValidator() ]);
-  }
+  ) {}
 
   getErrorMessage(): string {
     if (this.domainControl.hasError("required")) {

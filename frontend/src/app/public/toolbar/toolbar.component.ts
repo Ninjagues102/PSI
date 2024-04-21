@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { AddWebsiteComponent } from "../../features/add-website/add-website.component";
 import { WebsiteService } from "../../core/website.service";
-import { Website, WebsiteStatus } from "../../shared/models/website.model";
+import { Website, WebsiteRegistration, WebsiteStatus } from "../../shared/models/website.model";
 
 @Component({
   selector: "app-toolbar",
@@ -16,14 +16,15 @@ export class ToolbarComponent {
     const dialogRef = this.dialog.open(AddWebsiteComponent, {
       height: "50%",
       width: "50%",
-      data: { domain: "" },
     });
 
+    dialogRef.afterClosed().subscribe((data: WebsiteRegistration) => {
     const currentDate = new Date().toDateString();
 
     dialogRef.afterClosed().subscribe((domain: string) => {
       const website: Website = {
-        domain: domain,
+        protocol: data.protocol,
+        domain: data.domain,
         status: WebsiteStatus.REGISTERED,
         registryDate: currentDate,
         lastEvaluationDate: undefined
