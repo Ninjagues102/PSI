@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Website} from '../website';
 
 @Component({
   selector: 'app-websites',
