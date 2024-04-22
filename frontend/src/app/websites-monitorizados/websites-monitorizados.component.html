@@ -1,21 +1,11 @@
 <mat-card>
-    <mat-card-header>
-      <mat-card-title>Website</mat-card-title>
-      <mat-card-subtitle>link</mat-card-subtitle>
+    <mat-card-header >
+      <mat-card-title>{{website.name}}</mat-card-title>
+      <mat-card-subtitle>{{website.url}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-actions>
-      <button mat-button>Detalhes</button>
+      <button mat-button routerLink="/websiteDetail/{{website.url}}">Detalhes</button>
     </mat-card-actions>
-  </mat-card>
-  <br>
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Website</mat-card-title>
-      <mat-card-subtitle>link</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-actions>
-      <button mat-button>Detalhes</button>
-    </mat-card-actions>
-  </mat-card>
+</mat-card>
 
 <button routerLink="/dashboard">Back</button>

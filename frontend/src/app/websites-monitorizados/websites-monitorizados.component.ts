@@ -7,5 +7,6 @@ import { Website} from '../website';
   styleUrls: ['./websites-monitorizados.component.sass']
 })
 export class WebsitesMonitorizadosComponent {
+    website: any;
 
 }
