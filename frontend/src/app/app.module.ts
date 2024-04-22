@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-
+import { FormsModule } from '@angular/forms'; 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
@@ -14,6 +14,7 @@ import { PublicModule } from "./public/public.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FeaturesModule } from "./features/features.module";
 import { HttpClientModule } from "@angular/common/http";
+import { WebsiteDetailComponent } from './website-detail/website-detail.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { HttpClientModule } from "@angular/common/http";
     AppComponent,
     WebsitesComponent,
     WebsitesMonitorizadosComponent,
+    WebsiteDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,6 +36,7 @@ import { HttpClientModule } from "@angular/common/http";
     PublicModule,
     FeaturesModule,
     HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
