@@ -4,7 +4,7 @@ const Website = require("../models/website");
 
 const router = express.Router();
 
-const website_controller = require("..//../controllers/websiteController");
+const website_controller = require("../../controllers/websiteController");
 
 router.get("/", (_, res) => {
     Website.find()
