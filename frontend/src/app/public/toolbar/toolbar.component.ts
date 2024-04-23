@@ -19,10 +19,14 @@ export class ToolbarComponent {
       data: { domain: "" },
     });
 
+    const currentDate = new Date().toDateString();
+
     dialogRef.afterClosed().subscribe((domain: string) => {
       const website: Website = {
         domain: domain,
         status: "Por avaliar",
+        registryDate: currentDate,
+        lastEvaluationDate: undefined
       };
 
       this.websiteService.addWebsite(website).subscribe(_ => {});

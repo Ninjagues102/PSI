@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {Website} from '../website';
+import { Website } from '../shared/models/website.model';
 
 @Component({
   selector: 'app-website-detail',

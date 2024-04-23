@@ -1,12 +1,5 @@
 <div *ngIf="website">
-
-    <h2>{{website.name | uppercase}} Details</h2>
-    <div><span>url: </span>{{website.url}}</div>
-    <div><span>Data de Registo: </span>{{website.dataRegisto}}</div>
-    <div><span>Última avaliação: </span>{{website.dataUltimaAvaliacao}}</div>
-    <div>
-      <label for="website-name">Website name: </label>
-      <input id="website-name" [(ngModel)]="website.name" placeholder="name">
-    </div>
-  
+    <div><span>url: </span>{{website.domain}}</div>
+    <div><span>Data de Registo: </span>{{website.registryDate}}</div>
+    <div><span>Última avaliação: </span>{{website.lastEvaluationDate}}</div>
 </div>

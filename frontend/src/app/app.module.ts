@@ -16,7 +16,6 @@ import { FeaturesModule } from "./features/features.module";
 import { HttpClientModule } from "@angular/common/http";
 import { WebsiteDetailComponent } from './website-detail/website-detail.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
