@@ -4,6 +4,8 @@ const Website = require("../models/website");
 
 const router = express.Router();
 
+const website_controller = require("..//../controllers/websiteController");
+
 router.get("/", (_, res) => {
     Website.find()
         .then((websites) => {
@@ -34,5 +36,7 @@ router.post("/", (req, res) => {
             res.sendStatus(500);
         });
 });
+
+router.get("/website/:id", website_controller.website_detail);
 
 module.exports = router;
