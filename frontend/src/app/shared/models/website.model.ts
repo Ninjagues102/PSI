@@ -3,5 +3,5 @@ export interface Website {
   domain: string;
   status: string;
   registryDate: String;
-  lastEvaluationDate?: Date;
+  lastEvaluationDate?: String;
 }

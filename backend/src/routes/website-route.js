@@ -21,6 +21,8 @@ router.post("/", (req, res) => {
     const website = new Website({
         domain,
         status,
+        registryDate,
+        lastEvaluationDate
     });
 
     website.save({ validateBeforeSave: true })
