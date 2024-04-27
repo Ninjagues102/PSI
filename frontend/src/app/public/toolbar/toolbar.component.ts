@@ -24,7 +24,7 @@ export class ToolbarComponent {
     dialogRef.afterClosed().subscribe((domain: string) => {
       const website: Website = {
         domain: domain,
-        status: "Por avaliar",
+        status: WebsiteStatus.REGISTERED,
         registryDate: currentDate,
         lastEvaluationDate: undefined
       };
