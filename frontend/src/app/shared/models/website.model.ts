@@ -2,6 +2,8 @@ export interface Website {
   _id?: string;
   domain: string;
   status: WebsiteStatus;
+  registryDate: String;
+  lastEvaluationDate?: String
 }
 
 export enum WebsiteStatus {

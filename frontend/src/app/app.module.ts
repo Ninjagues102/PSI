@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FeaturesModule } from "./features/features.module";
 import { HttpClientModule } from "@angular/common/http";
 import { WebsiteDetailComponent } from './website-detail/website-detail.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { WebsiteDetailComponent } from './website-detail/website-detail.componen
     PublicModule,
     FeaturesModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
