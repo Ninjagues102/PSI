@@ -6,8 +6,8 @@ const websiteSchema = new mongoose.Schema({
     status: { 
         type: String, 
         required: true,
-        enum: ["Por avaliar", "Em avaliação", "Avaliado", "Erro na avaliação"],
-        default: "Por avaliar",
+        enum: ["Por Avaliar", "Em Avaliação", "Avaliado", "Erro na avaliação"],
+        default: "Por Avaliar",
     },
     pages: [Page.schema],
     registryDate: { type: Date, required: true, default: () => Date.now()},

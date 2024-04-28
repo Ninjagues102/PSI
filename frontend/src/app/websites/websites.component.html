@@ -1,19 +1,26 @@
+<mat-chip-listbox multiple (change)="onFilterChange($event)">
+  <mat-chip-option *ngFor="let status of Object.values(WebsiteStatus)">
+    {{status}}
+  </mat-chip-option>
+</mat-chip-listbox>
+
 <mat-grid-list cols="2" rowHeight="2:1">
-  <mat-grid-tile *ngFor="let web of websites">
-    <ul>
-      <li>
-        <a routerLink="/websiteDetail/{{web._id}}">
-          <span>{{web.domain}}</span> {{web.status}}
-        </a>
-        <ul>
-          <li *ngFor="let page of web.pages">
-            <span>{{page.relativePath}}</span>{{page.status}}
-          </li>
-        </ul>
-      </li>
-    </ul>
-    <div>
-    </div>
+  <mat-grid-tile *ngFor="let web of this.websitesToBePresented">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ web.domain }}</mat-card-title>
+        <mat-card-subtitle *ngIf="web.registryDate">Added on {{ web.registryDate | date:"short" }}</mat-card-subtitle>
+        <mat-card-subtitle>Status: {{ web.status }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-action-list>
+          <mat-list-item *ngFor="let page of web.pages">
+            <mat-icon matListItemIcon>url</mat-icon>
+            <span matListItemTitle>{{ page.relativePath }}</span>
+          </mat-list-item>
+        </mat-action-list>
+      </mat-card-content>
+    </mat-card>
   </mat-grid-tile>
 </mat-grid-list>
 

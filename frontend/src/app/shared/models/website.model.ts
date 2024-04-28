@@ -5,8 +5,8 @@ export interface Website {
   domain: string;
   pages: Page[];
   status?: WebsiteStatus;
-  registryDate?: String;
-  lastEvaluationDate?: String
+  registryDate?: Date;
+  lastEvaluationDate?: Date
 }
 
 export enum Protocol {

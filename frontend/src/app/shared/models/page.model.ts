@@ -4,8 +4,8 @@ export interface Page {
     _id?: string;
     relativePath: string;
     status?: PageStatus;
-    registryDate?: String;
-    lastEvaluationDate?: String
+    registryDate?: Date;
+    lastEvaluationDate?: Date
   }
 
   export enum PageStatus {

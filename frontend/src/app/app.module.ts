@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
@@ -15,6 +15,8 @@ import { FeaturesModule } from "./features/features.module";
 import { HttpClientModule } from "@angular/common/http";
 import { WebsiteDetailComponent } from './website-detail/website-detail.component';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { MatListModule } from "@angular/material/list";
+import { MatChipsModule } from "@angular/material/chips";
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import {MatGridListModule} from '@angular/material/grid-list';
     FeaturesModule,
     HttpClientModule,
     FormsModule,
-    MatGridListModule
+    MatGridListModule,
+    MatListModule,
+    MatChipsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
