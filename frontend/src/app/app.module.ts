@@ -6,7 +6,6 @@ import { AppComponent } from "./app.component";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatCardModule } from "@angular/material/card";
 import { WebsitesComponent } from "./websites/websites.component";
-import { WebsitesMonitorizadosComponent } from "./websites-monitorizados/websites-monitorizados.component";
 import { MatButtonModule } from "@angular/material/button";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
@@ -20,7 +19,6 @@ import { HttpClientModule } from "@angular/common/http";
   declarations: [
     AppComponent,
     WebsitesComponent,
-    WebsitesMonitorizadosComponent,
   ],
   imports: [
     BrowserModule,
