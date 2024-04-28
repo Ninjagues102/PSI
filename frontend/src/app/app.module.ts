@@ -20,6 +20,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
   declarations: [
     AppComponent,
     WebsitesComponent,
+    WebsiteDetailComponent,
   ],
   imports: [
     BrowserModule,
