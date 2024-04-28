@@ -3,7 +3,7 @@
     <ul>
       <li>
         <a routerLink="/websiteDetail/{{web.id}}">
-          <span>{{web.id}}</span> {{web.domain}}
+          <span>{{web.domain}}</span> {{web.status}}
         </a>
         <ul>
           <li *ngfor="let page of pages.website==web">
