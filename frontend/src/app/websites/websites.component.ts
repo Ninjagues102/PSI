@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Website } from '../shared/models/website.model';
+import { WebsiteService } from '../core/website.service';
 
 @Component({
   selector: 'app-websites',
@@ -8,4 +9,17 @@ import { Website } from '../shared/models/website.model';
 })
 export class WebsitesComponent {
 
+  constructor(private webService: WebsiteService){}
+
+  websites: Website[] = [];
+
+  getWebsites(): void {
+    this.webService.getWebsites()
+        .subscribe(websites => this.websites = websites);
+  }
+
+  ngOnInit(): void {
+    this.getWebsites();
+  }
 }
+

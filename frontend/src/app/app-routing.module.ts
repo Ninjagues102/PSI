@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'websites', component: WebsitesComponent},
   { path: 'websites_monitorizados', component: WebsitesMonitorizadosComponent},
   { path: 'dashboard', component: DashboardComponent},
-  { path: 'websiteDetail', component: WebsiteDetailComponent},
+  { path: 'websiteDetail/:id', component: WebsiteDetailComponent},
   { path: "**", redirectTo: "/dashboard", pathMatch: "full" }, // TODO - Does this make sense instead of an error page?
 ];
 
