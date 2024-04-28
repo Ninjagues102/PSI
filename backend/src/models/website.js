@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Page = require("./page");
 
 const websiteSchema = new mongoose.Schema({
     domain: { type: String, required: true },
@@ -8,8 +9,9 @@ const websiteSchema = new mongoose.Schema({
         enum: ["Por avaliar", "Em avaliação", "Avaliado", "Erro na avaliação"],
         default: "Por avaliar",
     },
-    registryDate: { type: String, required: true},
-    lastEvaluationDate: { type: String, required: false},
+    pages: [Page.schema],
+    registryDate: { type: Date, required: true, default: () => Date.now()},
+    lastEvaluationDate: { type: Date, required: false},
 });
 
 const Website = mongoose.model("Website", websiteSchema);

@@ -1,15 +1,12 @@
+import { Page } from "./page.model";
+
 export interface Website {
   _id?: string;
-  protocol: Protocol;
   domain: string;
-  status: WebsiteStatus;
-  registryDate: String;
+  pages: Page[];
+  status?: WebsiteStatus;
+  registryDate?: String;
   lastEvaluationDate?: String
-}
-
-export interface WebsiteRegistration {
-  protocol: Protocol;
-  domain: string;
 }
 
 export enum Protocol {

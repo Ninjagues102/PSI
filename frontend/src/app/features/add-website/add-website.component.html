@@ -1,23 +1,69 @@
 <div class="wrapper">
   <h1 mat-dialog-title>Regista um novo website</h1>
-  <div mat-dialog-content>
-    <p>Regista um novo website para analisar a sua acessibilidade.</p>
-    <mat-form-field>
-      <mat-select [formControl]="protocolControl">
-        <mat-option *ngFor="let protocol of protocolOptions" value="{{protocol}}">
-          {{protocol}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field [hideRequiredMarker]="true" appearance="outline"
-                    hintLabel="Insere o domínio do website sem o prefixo do protocolo.">
-      <mat-label>Domínio do website</mat-label>
-      <input [formControl]="domainControl" matInput placeholder="Ex. v16.material.angular.io" required>
-      <mat-error *ngIf="domainControl.invalid">{{ getErrorMessage() }}</mat-error>
-    </mat-form-field>
-  </div>
-  <div class="actions" mat-dialog-actions>
-    <button (click)="onCancel()" color="primary" mat-stroked-button>Cancelar</button>
-    <button [disabled]="domainControl.invalid" [mat-dialog-close]="domainControl.value" color="primary" mat-flat-button>Registar</button>
-  </div>
+
+  <mat-stepper orientation="vertical" linear>
+    <mat-step [stepControl]="websiteGroupControl">
+      <form [formGroup]="websiteGroupControl">
+        <ng-template matStepLabel>Indique o domínio</ng-template>
+
+        <div class="domain-row">
+          <mat-form-field>
+            <mat-select formControlName="protocolControl">
+              <mat-option *ngFor="let protocol of protocolOptions" value="{{protocol.prefix}}">
+                {{ protocol.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field [hideRequiredMarker]="true" appearance="outline">
+            <mat-label>Domínio do website</mat-label>
+            <input formControlName="domainControl" matInput placeholder="Ex. v16.material.angular.io" required>
+            <mat-error *ngIf="websiteGroupControl.controls.domainControl.invalid">{{ getWebsiteErrorMessage() }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="actions" mat-dialog-actions>
+          <button (click)="onCancel()" color="primary" mat-stroked-button>Cancelar</button>
+          <button [disabled]="websiteGroupControl.controls.domainControl.invalid" matStepperNext color="primary"
+                  mat-flat-button>
+            Continuar
+          </button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="pagesGroupControl">
+      <form [formGroup]="pagesGroupControl">
+        <ng-template matStepLabel>Indique as páginas a analisar</ng-template>
+        <mat-action-list>
+          <mat-list-item *ngFor="let page of pagesToAdd; index as i">
+            <mat-icon matListItemIcon>done</mat-icon>
+            <span matListItemTitle>{{ page }}</span>
+            <button (click)="removePage(i)" color="primary" mat-icon-button matListItemMeta>
+              <mat-icon color="primary">remove</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-action-list>
+
+        <mat-form-field [hideRequiredMarker]="true" appearance="outline" class="page-input"
+                        hintLabel="Insere o path relativo do website sem domínio ou protocolo.">
+          <mat-label>Path do website</mat-label>
+          <input formControlName="pageControl" matInput placeholder="Ex. /components/select" required>
+          <button (click)="addPage()" [disabled]="pagesGroupControl.controls.pageControl.invalid" color="primary"
+                  mat-icon-button matSuffix>
+            <mat-icon>add</mat-icon>
+          </button>
+          <mat-error *ngIf="pagesGroupControl.controls.pageControl.invalid">{{ getWebsiteErrorMessage() }}</mat-error>
+        </mat-form-field>
+
+        <div class="actions" mat-dialog-actions>
+          <button matStepperPrevious color="primary" mat-stroked-button>Retornar</button>
+          <button [disabled]="websiteGroupControl.controls.domainControl.invalid"
+                  [mat-dialog-close]="onSubmit()" color="primary" mat-flat-button>
+            Submeter
+          </button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-stepper>
 </div>

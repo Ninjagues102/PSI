@@ -13,11 +13,13 @@ export class WebsiteDetailComponent {
     private webService: WebsiteService,
     private route: ActivatedRoute
   ){}
-  
+
   website?: Website;
-  
+
   getWebsite(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id');
+    console.log("id: " + id)
+    if (!id) return
     this.webService.getWebsite(id)
       .subscribe(website => this.website = website);
   }

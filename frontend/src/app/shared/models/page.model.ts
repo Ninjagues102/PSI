@@ -1,13 +1,13 @@
 import { Website } from "./website.model";
+
 export interface Page {
     _id?: string;
-    domain: string;
-    website: Website;
-    status: PageStatus;
-    registryDate: String;
+    relativePath: string;
+    status?: PageStatus;
+    registryDate?: String;
     lastEvaluationDate?: String
   }
-  
+
   export enum PageStatus {
     REGISTERED = "Por Avaliar",
     IN_EVALUATION = "Em avaliação",

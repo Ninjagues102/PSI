@@ -6,8 +6,7 @@ import { WebsiteDetailComponent } from "./website-detail/website-detail.componen
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'websites', component: WebsitesComponent},
-  { path: 'dashboard', component: DashboardComponent},
+  { path: 'dashboard', component: WebsitesComponent},
   { path: 'websiteDetail/:id', component: WebsiteDetailComponent},
   { path: "**", redirectTo: "/dashboard", pathMatch: "full" }, // TODO - Does this make sense instead of an error page?
 ];

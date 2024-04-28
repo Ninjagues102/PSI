@@ -9,7 +9,7 @@ import { catchError, map, tap } from 'rxjs/operators';
   providedIn: "root",
 })
 export class WebsiteService {
-  private apiUrl: string;
+  private readonly apiUrl: string;
 
   constructor(private httpClient: HttpClient) {
     this.apiUrl = `${environment.backend_url}/website`;
@@ -19,7 +19,7 @@ export class WebsiteService {
     return this.httpClient.get<Website[]>(this.apiUrl);
   }
 
-  getWebsite(id: number): Observable<Website> {
+  getWebsite(id: string): Observable<Website> {
     const url = `${this.apiUrl}/${id}`;
     return this.httpClient.get<Website>(url)
     }

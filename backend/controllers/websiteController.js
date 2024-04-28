@@ -2,7 +2,7 @@ const Website = require("../src/models/website");
 const asyncHandler = require("express-async-handler");
 
 exports.website_detail = asyncHandler(async (req, res, next) => {
-    const  website  = await Website.findById(req.params.id)
+    const website  = await Website.findById(req.params.id)
         .populate("website")
         .exec();
 

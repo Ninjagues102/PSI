@@ -1,13 +1,13 @@
 <mat-grid-list cols="2" rowHeight="2:1">
-  <mat-grid-tile *ngfor="let web of websites">
+  <mat-grid-tile *ngFor="let web of websites">
     <ul>
       <li>
-        <a routerLink="/websiteDetail/{{web.id}}">
+        <a routerLink="/websiteDetail/{{web._id}}">
           <span>{{web.domain}}</span> {{web.status}}
         </a>
         <ul>
-          <li *ngfor="let page of pages.website==web">
-            <span>{{page.website}}</span>{{page.status}}
+          <li *ngFor="let page of web.pages">
+            <span>{{page.relativePath}}</span>{{page.status}}
           </li>
         </ul>
       </li>
