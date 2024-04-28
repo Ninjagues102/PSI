@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Website } from '../shared/models/website.model';
+import { Page } from '../shared/models/page.model';
 import { WebsiteService } from '../core/website.service';
 
 @Component({
@@ -12,6 +13,7 @@ export class WebsitesComponent {
   constructor(private webService: WebsiteService){}
 
   websites: Website[] = [];
+  pages: Page[] = [];
 
   getWebsites(): void {
     this.webService.getWebsites()
