@@ -41,7 +41,6 @@ router.post("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-    console.log("here")
     Website.findById(req.params.id)
         .then(website => {
             res.json(website);
