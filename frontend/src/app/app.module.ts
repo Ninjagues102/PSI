@@ -17,6 +17,7 @@ import { WebsiteDetailComponent } from './website-detail/website-detail.componen
 import {MatGridListModule} from '@angular/material/grid-list';
 import { MatListModule } from "@angular/material/list";
 import { MatChipsModule } from "@angular/material/chips";
+import { MatSortModule } from "@angular/material/sort";
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MatChipsModule } from "@angular/material/chips";
     MatGridListModule,
     MatListModule,
     MatChipsModule,
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
