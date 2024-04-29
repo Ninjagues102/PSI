@@ -4,7 +4,7 @@
   </mat-chip-option>
 </mat-chip-listbox>
 
-<table matSort (matSortChange)="sortData($event)">
+<table *ngIf="websitesToBePresented.length !== 0" matSort (matSortChange)="sortData($event)">
   <tr>
     <th>Domínio</th>
     <th>Status</th>
