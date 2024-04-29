@@ -24,7 +24,7 @@ export class AddWebsiteComponent {
 
   websiteGroupControl = this.formBuilder.group({
     protocolControl: new FormControl(Protocol.HTTPS, Validators.required),
-    domainControl: new FormControl("as.asd", [ Validators.required, Validators.pattern(domainRegex) ]),
+    domainControl: new FormControl("", [ Validators.required, Validators.pattern(domainRegex) ]),
   });
 
   pagesGroupControl = this.formBuilder.group({
