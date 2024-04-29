@@ -1,3 +1,3 @@
 export const environment = {
-  backend_url: "http://localhost:3034",
+  backend_url: "http://appserver.alunos.di.fc.ul.pt:3034",
 };
