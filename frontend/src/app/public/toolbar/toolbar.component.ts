@@ -20,7 +20,7 @@ export class ToolbarComponent {
 
 
     dialogRef.afterClosed().subscribe((website: Website) => {
-      this.websiteService.addWebsite(website).subscribe(_ => {});
+      this.websiteService.addWebsite(website);
     });
   }
 }

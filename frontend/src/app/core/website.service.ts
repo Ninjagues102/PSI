@@ -1,22 +1,23 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Website } from "../shared/models/website.model";
-import { Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { environment } from "../../environments/environment";
-import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: "root",
 })
 export class WebsiteService {
   private readonly apiUrl: string;
+  private websites: Subject<Website[]> = new Subject<Website[]>();
 
   constructor(private httpClient: HttpClient) {
     this.apiUrl = `${environment.backend_url}/website`;
   }
 
   getWebsites(): Observable<Website[]> {
-    return this.httpClient.get<Website[]>(this.apiUrl);
+    this.httpClient.get<Website[]>(this.apiUrl).subscribe(value => this.websites.next(value));
+    return this.websites;
   }
 
   getWebsite(id: string): Observable<Website> {
@@ -24,7 +25,9 @@ export class WebsiteService {
     return this.httpClient.get<Website>(url)
     }
 
-  addWebsite(website: Website): Observable<Website> {
-    return this.httpClient.post<Website>(this.apiUrl, website);
+  addWebsite(website: Website): void {
+    this.httpClient.post<Website>(this.apiUrl, website).subscribe(_ => {
+      this.getWebsites();
+    });
   }
 }

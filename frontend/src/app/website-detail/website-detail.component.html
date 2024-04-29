@@ -3,6 +3,13 @@
     <div><span>estado: </span>{{website.status}}</div>
     <div><span>Data de Registo: </span>{{website.registryDate}}</div>
     <div><span>Última avaliação: </span>{{website.lastEvaluationDate}}</div>
+
+    <span>Páginas registadas:</span>
+    <ul>
+      <li *ngFor="let page of website.pages">
+        {{page.relativePath}}
+      </li>
+    </ul>
 </div>
 
 <button routerLink="/dashboard" mat-fab color="primary">
