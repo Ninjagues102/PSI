@@ -5,8 +5,7 @@
   "scripts": {
     "start": "node src/app.js",
     "start:dev": "nodemon src/app.js",
-    "prestart": "start-datasource-container.sh",
-    "prestart:dev": "npm run prestart"
+    "prestart:dev": "start-datasource-container.sh"
   },
   "dependencies": {
     "express": "^4.19.2",
