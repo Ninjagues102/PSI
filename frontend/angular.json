@@ -37,6 +37,7 @@
           },
           "configurations": {
             "development": {
+              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",

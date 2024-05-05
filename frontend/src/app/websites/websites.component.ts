@@ -1,24 +1,60 @@
 import { Component, OnInit } from "@angular/core";
 import { Website, WebsiteStatus } from "../shared/models/website.model";
 import { WebsiteService } from "../core/website.service";
-import { MatChipListboxChange } from "@angular/material/chips";
-import { Sort } from "@angular/material/sort";
+import { MatDialog } from "@angular/material/dialog";
+import { WebsiteDetailComponent } from "../website-detail/website-detail.component";
+
+export enum SortingKey {
+  REGISTRY_DATE = "registryDate",
+  EVALUATION_DATE = "lastEvaluationDate"
+}
+
+export enum SortingDirection {
+  ASC = "asc",
+  DESC = "desc"
+}
+
+interface SortingInformation {
+  key: SortingKey;
+  direction: SortingDirection;
+}
 
 @Component({
   selector: 'app-websites',
+  host: {
+    class: "main-content",
+  },
   templateUrl: './websites.component.html',
   styleUrls: ['./websites.component.sass']
 })
 export class WebsitesComponent implements OnInit {
-
-  constructor(private webService: WebsiteService){}
-
+  filters = [
+    { icon: "pending", status: WebsiteStatus.REGISTERED },
+    { icon: "sync", status: WebsiteStatus.IN_EVALUATION },
+    { icon: "done", status: WebsiteStatus.EVALUATED },
+    { icon: "error", status: WebsiteStatus.EVALUATION_ERROR },
+  ];
+  activeSort: SortingInformation = { key: SortingKey.REGISTRY_DATE, direction: SortingDirection.ASC };
+  protected readonly SortingDirection = SortingDirection;
   websites: Website[] = [];
   websitesToBePresented: Website[] = [];
+  protected readonly SortingKey = SortingKey;
+  protected activeFilter?: WebsiteStatus;
 
-  protected readonly Object = Object;
-  protected readonly WebsiteStatus = WebsiteStatus;
-  isSelected: boolean = false;
+  constructor(private webService: WebsiteService, private dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    this.getWebsites();
+
+  }
+
+  websiteDetails(websiteId?: string): void {
+    this.dialog.open(WebsiteDetailComponent, {
+      height: "60%",
+      width: "60%",
+      data: websiteId,
+    });
+  }
 
   getWebsites(): void {
     this.webService.getWebsites()
@@ -28,36 +64,29 @@ export class WebsitesComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {
-    this.getWebsites();
+  onFilterChange(status: WebsiteStatus) {
+    this.activeFilter = status;
+    this.websitesToBePresented = this.websites.filter(website => status === website.status);
   }
 
-  onFilterChange(event: MatChipListboxChange) {
-    if (event.value.length === 0) {
-      this.websitesToBePresented = this.websites;
-      return;
-    }
-
-    this.websitesToBePresented = this.websites.filter(website => event.value.some((status: WebsiteStatus) => status === website.status));
+  clearFilters() {
+    this.activeFilter = undefined;
+    this.websitesToBePresented = this.websites;
   }
 
-  sortData(event: Sort) {
-    if (!event.active || event.direction === "") {
-      return;
-    }
-
+  sortData(sortInfo: SortingInformation) {
+    this.activeSort = sortInfo;
     this.websitesToBePresented = this.websitesToBePresented.sort((a, b) => {
-      const isAsc = event.direction === "asc";
-      switch (event.active) {
-        case "registryDate":
+      const isAsc = sortInfo.direction === SortingDirection.ASC;
+      switch (sortInfo.key) {
+        case SortingKey.REGISTRY_DATE:
           return this.compare(a.registryDate!, b.registryDate!, isAsc);
-        case "lastEvaluationDate":
+        case SortingKey.EVALUATION_DATE:
           return this.compare(a.lastEvaluationDate, b.lastEvaluationDate, isAsc);
         default:
           return 0;
       }
     });
-
   }
 
   compare(a: number | Date | string | undefined, b: number | Date | string | undefined, isAsc: boolean) {

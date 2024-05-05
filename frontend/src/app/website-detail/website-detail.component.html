@@ -1,17 +1,35 @@
-<div *ngIf="website">
-    <div><span>url: </span>{{website.domain}}</div>
-    <div><span>estado: </span>{{website.status}}</div>
-    <div><span>Data de Registo: </span>{{website.registryDate}}</div>
-    <div><span>Última avaliação: </span>{{website.lastEvaluationDate}}</div>
-
-    <span>Páginas registadas:</span>
-    <ul>
-      <li *ngFor="let page of website.pages">
-        {{page.relativePath}}
-      </li>
-    </ul>
+<div *ngIf="website" id="full-dialog">
+  <h1 mat-dialog-title>{{ website.domain }}</h1>
+  <div class="wrapper" mat-dialog-content>
+    <div class="info">
+      <div class="entry">
+        <h2>Estado: </h2><span>{{ website.status }}</span>
+      </div>
+      <div class="entry">
+        <h2>Registo: </h2><span>{{ website.registryDate | date:"short" }}</span><br>
+      </div>
+      <div class="entry">
+        <h2>Última Avaliação: </h2><span>{{ (website.lastEvaluationDate | date:"short") || "N/A" }}</span><br>
+      </div>
+    </div>
+    <div class="page-list">
+      <mat-accordion *ngIf="website.pages.length !== 0">
+        <mat-expansion-panel *ngFor="let page of website.pages">
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ website.domain + page.relativePath }}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="entry">
+            <h4>Estado: </h4><span>{{ page.status }}</span><br>
+          </div>
+          <div class="entry">
+            <h4>Última avaliação: </h4><span>{{ (page.lastEvaluationDate | date:"short") || "N/A" }}</span><br>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <h3 *ngIf="website.pages.length === 0">Nenhuma página associada a este website</h3>
+    </div>
+  </div>
+  <mat-dialog-actions align="end">
+    <button color="primary" mat-dialog-close mat-raised-button>Fechar</button>
+  </mat-dialog-actions>
 </div>
-
-<button routerLink="/dashboard" mat-fab color="primary">
-  <mat-icon>arrow_back</mat-icon>
-</button>

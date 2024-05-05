@@ -5,7 +5,7 @@ const pageSchema = new mongoose.Schema({
     status: {
         type: String, 
         required: true,
-        enum: ["Por Avaliar", "Em Avaliação", "Confirmado", "Não confirmado", "Erro na avaliação"],
+        enum: ["Por Avaliar", "Conforme", "Não conforme", "Erro na avaliação"],
         default: "Por Avaliar",
     },
     registryDate: { type: Date, required: true, default: () => Date.now() },

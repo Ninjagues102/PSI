@@ -1,30 +1,28 @@
-import { Component, Input } from '@angular/core';
-import { Website } from '../shared/models/website.model';
-import { WebsiteService } from '../core/website.service';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Inject, OnInit } from "@angular/core";
+import { Website } from "../shared/models/website.model";
+import { WebsiteService } from "../core/website.service";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
   selector: 'app-website-detail',
   templateUrl: './website-detail.component.html',
   styleUrls: ['./website-detail.component.sass']
 })
-export class WebsiteDetailComponent {
-  constructor(
-    private webService: WebsiteService,
-    private route: ActivatedRoute
-  ){}
-
+export class WebsiteDetailComponent implements OnInit {
   website?: Website;
 
-  getWebsite(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    console.log("id: " + id)
-    if (!id) return
-    this.webService.getWebsite(id)
-      .subscribe(website => this.website = website);
-  }
+  constructor(
+    private webService: WebsiteService,
+    @Inject(MAT_DIALOG_DATA) public websiteId: string,
+  ){}
 
   ngOnInit(): void {
     this.getWebsite();
+  }
+
+  getWebsite(): void {
+    if (!this.websiteId) return;
+    this.webService.getWebsite(this.websiteId)
+      .subscribe(website => this.website = website);
   }
 }

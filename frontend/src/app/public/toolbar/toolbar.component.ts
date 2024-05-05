@@ -19,7 +19,8 @@ export class ToolbarComponent {
     });
 
 
-    dialogRef.afterClosed().subscribe((website: Website) => {
+    dialogRef.afterClosed().subscribe((website: Website | undefined) => {
+      if (!website) return;
       this.websiteService.addWebsite(website);
     });
   }

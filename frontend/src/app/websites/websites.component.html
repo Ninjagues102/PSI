@@ -1,21 +1,102 @@
-<mat-chip-listbox multiple (change)="onFilterChange($event)">
-  <mat-chip-option *ngFor="let status of Object.values(WebsiteStatus)">
-    {{status}}
-  </mat-chip-option>
-</mat-chip-listbox>
+<div class="filters">
+  <button [matMenuTriggerData]="{activeSort: activeSort}" [matMenuTriggerFor]="sortElement" extended
+          mat-fab>
+    <mat-icon>sort</mat-icon>
+    <span>Ordenação</span>
+  </button>
+  <mat-menu #sortElement="matMenu">
+    <ng-template let-activeSort="activeSort" matMenuContent>
+      <button [matMenuTriggerData]="{activeSort: activeSort}" [matMenuTriggerFor]="registryDateSort"
+              mat-menu-item>
+        <mat-icon [color]="activeSort.key === SortingKey.REGISTRY_DATE ? 'primary' : undefined">
+          sort
+        </mat-icon>
+        <span>Data de registo</span>
+      </button>
+      <button [matMenuTriggerData]="{activeSort: activeSort}" [matMenuTriggerFor]="evaluationDateSort"
+              mat-menu-item>
+        <mat-icon [color]="activeSort.key === SortingKey.EVALUATION_DATE ? 'primary' : undefined">
+          sort
+        </mat-icon>
+        <span>Data de ultima avaliação</span>
+      </button>
+    </ng-template>
+  </mat-menu>
 
-<table *ngIf="websitesToBePresented.length !== 0" matSort (matSortChange)="sortData($event)">
-  <tr>
-    <th>Domínio</th>
-    <th>Status</th>
-    <th mat-sort-header="registryDate">Data de registo</th>
-    <th mat-sort-header="lastEvaluationDate">Data de última avaliação</th>
-  </tr>
+  <mat-menu #registryDateSort="matMenu">
+    <ng-template let-activeSort="activeSort" matMenuContent>
+      <button (click)="sortData({key: SortingKey.REGISTRY_DATE, direction: SortingDirection.ASC})" mat-menu-item>
+        <mat-icon
+          [color]="activeSort.key === SortingKey.REGISTRY_DATE && activeSort.direction === SortingDirection.ASC
+          ? 'primary' : undefined">
+          arrow_upward
+        </mat-icon>
+        <span>Ascendente</span>
+      </button>
+      <button (click)="sortData({key: SortingKey.REGISTRY_DATE, direction: SortingDirection.DESC})" mat-menu-item>
+        <mat-icon
+          [color]="activeSort.key === SortingKey.REGISTRY_DATE && activeSort.direction === SortingDirection.DESC
+          ? 'primary' : undefined">
+          arrow_downward
+        </mat-icon>
+        <span>Descendente</span>
+      </button>
+    </ng-template>
+  </mat-menu>
 
-  <tr *ngFor="let website of websitesToBePresented">
-    <td><a routerLink="/websiteDetail/{{website._id}}">{{ website.domain }}</a></td>
-    <td>{{ website.status }}</td>
-    <td>{{ website.registryDate | date:"short" }}</td>
-    <td>{{ website.lastEvaluationDate | date:"short" }}</td>
-  </tr>
-</table>
+  <mat-menu #evaluationDateSort="matMenu">
+    <ng-template let-activeSort="activeSort" matMenuContent>
+      <button (click)="sortData({key: SortingKey.EVALUATION_DATE, direction: SortingDirection.ASC})" mat-menu-item>
+        <mat-icon [color]="activeSort.key === SortingKey.EVALUATION_DATE && activeSort.direction === SortingDirection.ASC
+          ? 'primary' : undefined">
+          arrow_upward
+        </mat-icon>
+        <span>Ascendente</span>
+      </button>
+      <button (click)="sortData({key: SortingKey.EVALUATION_DATE, direction: SortingDirection.DESC})" mat-menu-item>
+        <mat-icon [color]="activeSort.key === SortingKey.EVALUATION_DATE && activeSort.direction === SortingDirection.DESC
+          ? 'primary' : undefined">
+          arrow_downward
+        </mat-icon>
+        <span>Descendente</span>
+      </button>
+    </ng-template>
+  </mat-menu>
+
+
+  <button [matMenuTriggerData]="{activeFilter: activeFilter}" [matMenuTriggerFor]="filtersElement" extended mat-fab>
+    <mat-icon>filter_list</mat-icon>
+    <span>Filtros</span>
+  </button>
+  <mat-menu #filtersElement="matMenu">
+    <ng-template let-activeFilter="activeFilter" matMenuContent>
+      <button (click)="clearFilters()" *ngIf="activeFilter" mat-menu-item>
+        <mat-icon>filter_list_off</mat-icon>
+        <span>Remover filtros</span>
+      </button>
+      <mat-divider *ngIf="activeFilter"></mat-divider>
+      <button (click)="onFilterChange(filter.status)" *ngFor="let filter of filters" mat-menu-item>
+        <mat-icon [color]="activeFilter === filter.status ? 'primary' : undefined">{{ filter.icon }}</mat-icon>
+        <span>{{ filter.status }}</span>
+      </button>
+    </ng-template>
+  </mat-menu>
+</div>
+
+<div class="wrapper">
+  <div class="website-list">
+    <mat-card *ngFor="let website of websitesToBePresented" appearance="raised">
+      <mat-card-header>
+        <mat-card-title>{{ website.domain }}</mat-card-title>
+        <mat-card-subtitle>{{ website.status }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <span><b>Registro:</b> {{ website.registryDate | date:"short" }}</span><br>
+        <span><b>Ultima avaliação:</b> {{ (website.lastEvaluationDate | date:"short") || "N/A" }}</span>
+      </mat-card-content>
+      <mat-card-actions>
+        <button (click)="websiteDetails(website._id)" color="primary" mat-raised-button>Detalhes</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
