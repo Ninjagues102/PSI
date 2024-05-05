@@ -4,8 +4,10 @@ const Website = require("../models/website");
 
 const router = express.Router();
 
-const website_controller = require("../../controllers/websiteController");
 const Page = require("../models/page");
+const { AccessibilityController } = require("../controllers/AccessibilityController");
+
+const accessibilityController = new AccessibilityController()
 
 router.get("/", (_, res) => {
     Website.find()
@@ -33,6 +35,24 @@ router.post("/", (req, res) => {
     website.save({ validateBeforeSave: true })
         .then((newWebsite) => {
             res.json(newWebsite);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.sendStatus(500);
+        });
+});
+
+router.post("/process/:id", async (req, res) => {
+    Website.findById(req.params.id)
+        .then(async website => {
+            const pagesToProcess = req.body.pages;
+            const validPages = pagesToProcess.every(pageToProcess =>
+                website.pages.some(page => page._id.toString() === pageToProcess._id));
+
+            if (!validPages) res.status(400).send();
+
+            await accessibilityController.processPages(website._id, website.domain, pagesToProcess);
+            res.status(200).send();
         })
         .catch((err) => {
             console.error(err);

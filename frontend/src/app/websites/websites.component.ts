@@ -3,6 +3,7 @@ import { Website, WebsiteStatus } from "../shared/models/website.model";
 import { WebsiteService } from "../core/website.service";
 import { MatDialog } from "@angular/material/dialog";
 import { WebsiteDetailComponent } from "../website-detail/website-detail.component";
+import { BeginEvaluationComponent } from "../features/begin-evaluation/begin-evaluation.component";
 
 export enum SortingKey {
   REGISTRY_DATE = "registryDate",
@@ -34,7 +35,7 @@ export class WebsitesComponent implements OnInit {
     { icon: "done", status: WebsiteStatus.EVALUATED },
     { icon: "error", status: WebsiteStatus.EVALUATION_ERROR },
   ];
-  activeSort: SortingInformation = { key: SortingKey.REGISTRY_DATE, direction: SortingDirection.ASC };
+  activeSort: SortingInformation = { key: SortingKey.REGISTRY_DATE, direction: SortingDirection.DESC };
   protected readonly SortingDirection = SortingDirection;
   websites: Website[] = [];
   websitesToBePresented: Website[] = [];
@@ -45,15 +46,31 @@ export class WebsitesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getWebsites();
-
   }
 
   websiteDetails(websiteId?: string): void {
     this.dialog.open(WebsiteDetailComponent, {
       height: "60%",
-      width: "60%",
+      width: "50%",
       data: websiteId,
     });
+  }
+
+  openEvaluationDialog(websiteId?: string): void {
+    const dialogRef = this.dialog.open(BeginEvaluationComponent, {
+      height: "65%",
+      width: "65%",
+      data: websiteId
+    });
+
+    dialogRef.afterClosed().subscribe(pages => {
+      if (!pages || !websiteId) return;
+      this.webService.processPages(websiteId, { pages: pages }).subscribe(status => {
+        const website = this.websites.find(website => website._id === websiteId);
+        if (!website) return;
+        website.status = status;
+      });
+    })
   }
 
   getWebsites(): void {
@@ -61,6 +78,7 @@ export class WebsitesComponent implements OnInit {
       .subscribe(websites => {
         this.websites = websites;
         this.websitesToBePresented = websites;
+        this.sortData(this.activeSort);
       });
   }
 

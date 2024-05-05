@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <h1 mat-dialog-title>Selecione as páginas para avaliação:</h1>
+  <div *ngIf="website" id="evaluation-dialog-content">
+    <mat-selection-list [ngModel]="pagesToEvaluate" (ngModelChange)="modelChange($event)" color="primary">
+      <mat-list-option [value]="page" *ngFor="let page of website.pages">
+        <span matListItemTitle>{{website.domain + page.relativePath}}</span>
+        <span matListItemLine>{{page.status}}</span>
+      </mat-list-option>
+    </mat-selection-list>
+    <mat-dialog-actions align="end">
+      <button mat-raised-button [mat-dialog-close]="pagesToEvaluate"
+              color="primary">Submeter
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>

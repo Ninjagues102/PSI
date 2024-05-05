@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const PageEvaluation = require("./page-evaluation");
 
 const pageSchema = new mongoose.Schema({
     relativePath: { type: String, required: true },
@@ -8,6 +9,7 @@ const pageSchema = new mongoose.Schema({
         enum: ["Por Avaliar", "Conforme", "Não conforme", "Erro na avaliação"],
         default: "Por Avaliar",
     },
+    evaluation: PageEvaluation.schema,
     registryDate: { type: Date, required: true, default: () => Date.now() },
     lastEvaluationDate: { type: Date, required: false },
 });
@@ -15,3 +17,13 @@ const pageSchema = new mongoose.Schema({
 const Page = mongoose.model("Page", pageSchema);
 
 module.exports = Page;
+const t = {
+    page: {
+        modules: [
+            {
+                module: "asd",
+                fail_levels: ["asd"]
+            }
+        ]
+    }
+}

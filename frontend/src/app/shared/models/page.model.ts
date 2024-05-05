@@ -12,3 +12,7 @@ export enum PageStatus {
   NON_COMPLIANT = "Não conforme",
   ERROR = "'Erro na avaliação"
 }
+
+export interface PageProcessDto {
+  pages: [ Page ];
+}

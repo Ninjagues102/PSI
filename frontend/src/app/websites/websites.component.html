@@ -95,6 +95,10 @@
         <span><b>Ultima avaliação:</b> {{ (website.lastEvaluationDate | date:"short") || "N/A" }}</span>
       </mat-card-content>
       <mat-card-actions>
+        <button [disabled]="website.pages.length === 0" (click)="openEvaluationDialog(website._id)"
+                color="primary" mat-raised-button>
+          Iniciar avaliação
+        </button>
         <button (click)="websiteDetails(website._id)" color="primary" mat-raised-button>Detalhes</button>
       </mat-card-actions>
     </mat-card>

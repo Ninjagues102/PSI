@@ -8,6 +8,7 @@
     "prestart:dev": "start-datasource-container.sh"
   },
   "dependencies": {
+    "@qualweb/core": "^0.7.71",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "express-async-handler": "^1.2.0",

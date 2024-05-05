@@ -2,8 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require('cors')
 
-const environmentDev = require("./environments/environment");
-const environmentProd = require("./environments/environment-dev");
+const environmentProd = require("./environments/environment");
+const environmentDev = require("./environments/environment-dev");
 const websiteRouter = require("./routes/website-route");
 
 const app = express();
