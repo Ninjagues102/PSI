@@ -1,7 +1,10 @@
+import { PageEvaluation } from "./page-evaluation.model";
+
 export interface Page {
     _id?: string;
     relativePath: string;
     status?: PageStatus;
+    evaluation: PageEvaluation;
     registryDate?: Date;
     lastEvaluationDate?: Date
   }
