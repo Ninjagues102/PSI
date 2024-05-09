@@ -43,7 +43,7 @@ export class WebsitesComponent implements OnInit {
   protected activeFilter?: WebsiteStatus;
 
   constructor(private webService: WebsiteService, private dialog: MatDialog) {}
-
+  
   ngOnInit(): void {
     this.getWebsites();
   }
@@ -86,7 +86,7 @@ export class WebsitesComponent implements OnInit {
     this.activeFilter = status;
     this.websitesToBePresented = this.websites.filter(website => status === website.status);
   }
-
+  
   clearFilters() {
     this.activeFilter = undefined;
     this.websitesToBePresented = this.websites;
@@ -111,6 +111,10 @@ export class WebsitesComponent implements OnInit {
     if (a === undefined) return -1 * (isAsc ? 1 : -1);
     if (b === undefined) return 1 * (isAsc ? 1 : -1);
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  
+  removeWebsite(arg0: string|undefined) {
+    throw new Error('Method not implemented.');
   }
 }
 
