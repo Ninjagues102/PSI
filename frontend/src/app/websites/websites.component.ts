@@ -113,8 +113,9 @@ export class WebsitesComponent implements OnInit {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
   
-  removeWebsite(arg0: string|undefined) {
-    throw new Error('Method not implemented.');
+  removeWebsite(website: Website) {
+    this.websitesToBePresented = this.websitesToBePresented.filter(w => w !== website);
+    this.webService.deleteWebsite(website._id);
   }
 }
 

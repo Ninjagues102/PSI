@@ -19,7 +19,7 @@ export class WebsiteService {
   constructor(private httpClient: HttpClient) {
     this.apiUrl = `${environment.backend_url}/website`;
   }
-
+  
   getWebsites(): Observable<Website[]> {
     this.httpClient.get<Website[]>(this.apiUrl, { headers: this.headers }).subscribe(websites => this.websites.next(websites));
     return this.websites;
@@ -28,7 +28,7 @@ export class WebsiteService {
   getWebsite(id: string): Observable<Website> {
     const url = `${this.apiUrl}/${id}`;
     return this.httpClient.get<Website>(url, { headers: this.headers });
-    }
+  }
 
   addWebsite(website: Website): void {
     this.httpClient.post<Website>(this.apiUrl, website, { headers: this.headers }).subscribe(_ =>
@@ -41,5 +41,10 @@ export class WebsiteService {
       this.getWebsites(),
     );
     return new BehaviorSubject<WebsiteStatus>(WebsiteStatus.IN_EVALUATION);
+  }
+  
+  deleteWebsite(_id: string | undefined) {
+    const url = `${this.apiUrl}/${_id}`;
+    return this.httpClient.delete<Website>(url, {headers: new HttpHeaders({ 'Content-Type': 'application/json' })});
   }
 }

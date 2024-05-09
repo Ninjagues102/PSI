@@ -30,7 +30,7 @@
     </div>
   </div>
   <mat-dialog-actions align="end">
-    <button color="primary" mat-raised-button>Eliminar</button>
+    <button (click)="removeWebsite(website)" color="primary" mat-dialog-close mat-raised-button>Eliminar</button>
     <button color="primary" mat-dialog-close mat-raised-button>Fechar</button>
   </mat-dialog-actions>
 </div>

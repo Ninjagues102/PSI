@@ -51,7 +51,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
     MatDialogModule,
     MatExpansionModule,
   ],
-  providers: [],
+  providers: [WebsitesComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

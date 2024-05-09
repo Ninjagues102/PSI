@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { Website } from "../shared/models/website.model";
 import { WebsiteService } from "../core/website.service";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { WebsitesComponent } from "../websites/websites.component";
 
 @Component({
   selector: 'app-website-detail',
@@ -10,19 +11,25 @@ import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 })
 export class WebsiteDetailComponent implements OnInit {
   website?: Website;
-
+  
   constructor(
     private webService: WebsiteService,
     @Inject(MAT_DIALOG_DATA) public websiteId: string,
+    private websitesComponent: WebsitesComponent
   ){}
 
   ngOnInit(): void {
     this.getWebsite();
   }
-
+  
   getWebsite(): void {
     if (!this.websiteId) return;
     this.webService.getWebsite(this.websiteId)
       .subscribe(website => this.website = website);
+  }
+
+  removeWebsite(website:Website) {
+    this.websitesComponent.websitesToBePresented = this.websitesComponent.websitesToBePresented.filter(w => w !== website);
+    this.webService.deleteWebsite(website._id);
   }
 }
