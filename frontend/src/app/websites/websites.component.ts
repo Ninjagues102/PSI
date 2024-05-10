@@ -118,4 +118,3 @@ export class WebsitesComponent implements OnInit {
     this.webService.deleteWebsite(website._id);
   }
 }
-

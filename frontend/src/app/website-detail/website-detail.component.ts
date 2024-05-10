@@ -29,7 +29,6 @@ export class WebsiteDetailComponent implements OnInit {
   }
 
   removeWebsite(website:Website) {
-    this.websitesComponent.websitesToBePresented = this.websitesComponent.websitesToBePresented.filter(w => w !== website);
-    this.webService.deleteWebsite(website._id);
+    this.websitesComponent.removeWebsite(website);
   }
 }
