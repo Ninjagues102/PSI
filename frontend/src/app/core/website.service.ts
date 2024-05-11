@@ -44,7 +44,7 @@ export class WebsiteService {
   }
   
   deleteWebsite(_id: string | undefined) {
-    const url = `${this.apiUrl}/${_id}`;
-    return this.httpClient.delete<Website>(url, {headers: new HttpHeaders({ 'Content-Type': 'application/json' })});
+    const url = `${this.apiUrl}/${_id}/delete`;
+    this.httpClient.post<Website>(url, {headers: this.headers }).subscribe();
   }
 }

@@ -23,41 +23,21 @@ exports.website_delete_get = asyncHandler(async (req, res, next) => {
     
     const [website, allWebsitePages] = await Promise.all([
       Website.findById(req.params.id).exec(),
-      website.pages.exec(),
+      Website.findById(req.params.id).pages,
     ]);
-  
-    if (website === null) {
-      // No results.
-      res.redirect("/dashboard");
-    }
-  
-    res.render("website_delete", {
-      title: "Delete Website",
-      website: website,
-      website_pages: allWebsitePages,
-    });
   });
+  
 
 
 exports.website_delete_post = asyncHandler(async (req, res, next) => {
     
     const [website, allWebsitePages] = await Promise.all([
         Website.findById(req.params.id).exec(),
-        website.pages.exec(),
+        Website.findById(req.params.id).pages,
     ]);
-  
-    if (allWebsitePages.length > 0) {
-      res.render("website_delete", {
-        title: "Delete Website",
-        website: website,
-        website_pages: allWebsitePages,
-      });
-      return;
-    } else {
     
-      await Website.findByIdAndDelete(req.params.id);
-      res.redirect("/dashboard");
-    }
+    await Website.findByIdAndDelete(req.params.id);
+    res.redirect("");
   });
   
   

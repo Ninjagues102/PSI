@@ -116,5 +116,5 @@ export class WebsitesComponent implements OnInit {
   removeWebsite(website: Website) {
     this.websitesToBePresented = this.websitesToBePresented.filter(w => w !== website);
     this.webService.deleteWebsite(website._id);
-  }
+    }
 }

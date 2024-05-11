@@ -9,6 +9,8 @@ const { AccessibilityController } = require("../controllers/AccessibilityControl
 
 const accessibilityController = new AccessibilityController()
 
+const websiteController = require("../controllers/websiteController")
+
 router.get("/", (_, res) => {
     Website.find()
         .then((websites) => {
@@ -70,5 +72,10 @@ router.get("/:id", (req, res) => {
             res.sendStatus(500);
         });
 });
+
+
+router.get("/:id/delete", websiteController.website_delete_get);
+
+router.post("/:id/delete", websiteController.website_delete_post);
 
 module.exports = router;
