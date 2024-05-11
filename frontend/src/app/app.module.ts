@@ -22,7 +22,8 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatExpansionModule } from "@angular/material/expansion";
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatDialogModule,
     MatExpansionModule,
     MatTabsModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
