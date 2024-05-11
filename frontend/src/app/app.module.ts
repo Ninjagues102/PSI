@@ -22,12 +22,14 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatExpansionModule } from "@angular/material/expansion";
+import { DeleteWebsiteComponent } from './features/delete-website/delete-website.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WebsitesComponent,
     WebsiteDetailComponent,
+    DeleteWebsiteComponent,
   ],
   imports: [
     BrowserModule,

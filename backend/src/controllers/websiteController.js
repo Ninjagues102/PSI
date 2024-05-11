@@ -33,11 +33,14 @@ exports.website_delete_post = asyncHandler(async (req, res, next) => {
     
     const [website, allWebsitePages] = await Promise.all([
         Website.findById(req.params.id).exec(),
-        Website.findById(req.params.id).pages,
+        Website.findById(req.params.id).populate('pages').exec(),
     ]);
     
-    await Website.findByIdAndDelete(req.params.id);
-    res.redirect("");
+    const pageIds = allWebsitePages.pages.map(page => page._id);
+
+    await Promise.all(pageIds.map(pageId => Website.findByIdAndDelete(pageId)));
+
+    await Website.findByIdAndDelete(website.id);
   });
   
   
