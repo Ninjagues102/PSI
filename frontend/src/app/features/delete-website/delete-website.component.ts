@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { WebsiteService } from 'src/app/core/website.service';
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Website } from 'src/app/shared/models/website.model';
 import { WebsitesComponent } from 'src/app/websites/websites.component';
+import { environment } from 'src/environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Component({
@@ -10,27 +11,34 @@ import { WebsitesComponent } from 'src/app/websites/websites.component';
   templateUrl: './delete-website.component.html',
   styleUrls: ['./delete-website.component.sass']
 })
-export class DeleteWebsiteComponent implements OnInit{
+export class DeleteWebsiteComponent{
+
+
+  private readonly apiUrl: string;
+  private readonly headers = new HttpHeaders({
+    "Cache-Control": "no-cache",
+    "Pragma": "no-cache",
+  });
 
   constructor( 
-    @Inject(MAT_DIALOG_DATA) public websiteId: string, 
+    @Inject(MAT_DIALOG_DATA) public website: Website, 
     private websitesComponent: WebsitesComponent,
-    private webService : WebsiteService){}
+    private httpClient: HttpClient,
+    public dialogRef: MatDialogRef<DeleteWebsiteComponent>,){
 
-    website !: Website;
-
-    ngOnInit(): void {
-      this.getWebsite();
+      this.apiUrl = `${environment.backend_url}/website`;
     }
+  
     
-    getWebsite(): void {
-      if (!this.websiteId) return;
-      this.webService.getWebsite(this.websiteId)
-        .subscribe(website => this.website = website);
-    }
-
   deleteWebsite(): any {
-    this.websitesComponent.removeWebsite(this.website);
+    this.websitesComponent.removeFromList(this.website)
+    const url = `${this.apiUrl}/${this.website._id}/delete`;
+    this.httpClient.post<Website>(url, {headers: this.headers }).subscribe();
+    this.close()
+  }
+
+  close() {
+    this.dialogRef.close()
   }
 
 }
