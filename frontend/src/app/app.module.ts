@@ -24,6 +24,8 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { DeleteWebsiteComponent } from './features/delete-website/delete-website.component';
 import { WebsiteService } from "./core/website.service";
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,8 @@ import { WebsiteService } from "./core/website.service";
     MatButtonToggleModule,
     MatDialogModule,
     MatExpansionModule,
+    MatTabsModule,
+    MatTableModule,
   ],
   providers: [WebsitesComponent, WebsiteService],
   bootstrap: [AppComponent]

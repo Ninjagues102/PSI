@@ -50,8 +50,8 @@ export class WebsitesComponent implements OnInit {
 
   websiteDetails(websiteId?: string): void {
     this.dialog.open(WebsiteDetailComponent, {
-      height: "60%",
-      width: "50%",
+      height: "100%",
+      width: "100%",
       data: websiteId,
     });
   }
