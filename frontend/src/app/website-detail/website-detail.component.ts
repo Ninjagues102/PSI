@@ -28,7 +28,18 @@ export class WebsiteDetailComponent implements OnInit {
       .subscribe(website => this.website = website);
   }
 
+  getWebsites(): void {
+    this.webService.getWebsites()
+      .subscribe(websites => {
+        this.websitesComponent.websites = websites;
+        this.websitesComponent.websitesToBePresented = websites;
+        this.websitesComponent.sortData(this.websitesComponent.activeSort);
+      });
+  }
+
   removeWebsite(website:Website) {
-    this.websitesComponent.removeWebsite(website);
+    this.websitesComponent.removeFromList(website)
+    this.webService.deleteWebsite(website);
+    this.getWebsites()
   }
 }

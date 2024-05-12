@@ -114,10 +114,9 @@ export class WebsitesComponent implements OnInit {
   }
   
   removeWebsite(website: Website) {
-    if ( website.pages.length == 0){
-      this.webService.deleteWebsite(website);
-    }
     this.removeFromList(website)
+    this.webService.deleteWebsite(website);
+    this.getWebsites()
   }
 
   removeFromList(website : Website){

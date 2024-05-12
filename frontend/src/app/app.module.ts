@@ -23,6 +23,7 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { DeleteWebsiteComponent } from './features/delete-website/delete-website.component';
+import { WebsiteService } from "./core/website.service";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import { DeleteWebsiteComponent } from './features/delete-website/delete-website
     MatDialogModule,
     MatExpansionModule,
   ],
-  providers: [WebsitesComponent],
+  providers: [WebsitesComponent, WebsiteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
