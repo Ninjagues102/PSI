@@ -111,7 +111,7 @@ export class WebsiteDetailComponent implements OnInit {
 
   removeWebsite(website:Website) {
     this.webService.deleteWebsite(website);
-    this.websitesComponent.removeFromList(website)
-    this.getWebsites()
+    this.websitesComponent.removeFromList(website);
+    this.webService.getWebsites();
   }
 }

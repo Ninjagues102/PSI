@@ -56,13 +56,14 @@ export class WebsiteService {
         data: website,
       });
   
-      dialogRef.afterClosed().subscribe(() => {
+      dialogRef.afterClosed().subscribe(_ => {
         this.getWebsites();
       });
       return;
     }
     const url = `${this.apiUrl}/${website._id}/delete`;
-    this.httpClient.post<Website>(url, {headers: this.headers }).subscribe();
-    this.getWebsites();
+    this.httpClient.post<Website>(url, {headers: this.headers }).subscribe(_ =>
+      this.getWebsites()
+    );
   }
 }

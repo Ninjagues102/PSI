@@ -49,11 +49,14 @@ export class WebsitesComponent implements OnInit {
   }
 
   websiteDetails(websiteId?: string): void {
-    this.dialog.open(WebsiteDetailComponent, {
+    const dialogRef = this.dialog.open(WebsiteDetailComponent, {
       height: "65%",
       width: "100%",
       data: websiteId,
     });
+    dialogRef.afterClosed().subscribe(_ => {
+      this.webService.getWebsites();
+    })
   }
 
   openEvaluationDialog(websiteId?: string): void {
@@ -115,11 +118,14 @@ export class WebsitesComponent implements OnInit {
   
   removeWebsite(website: Website) {
     this.webService.deleteWebsite(website);
-    this.removeFromList(website)
-    this.getWebsites()
+    this.removeFromList(website);
+    this.webService.getWebsites();
+    window.location.reload();
+
   }
 
   removeFromList(website : Website){
     this.websites = this.websites.filter(w => w !== website);
+    this.websitesToBePresented = this.websites
   }
 }
