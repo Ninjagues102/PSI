@@ -42,8 +42,8 @@
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
       </table>
-      <h3 *ngIf="website.status === 'Erro na avaliação'"> Erro na avaliação </h3>
-      <h3 *ngIf="website.status !== 'Avaliado'"> Avaliação não foi iniciada </h3>
+      <h3 mat-dialog-title *ngIf="website.status === 'Erro na avaliação'"> Erro na avaliação </h3>
+      <h3 mat-dialog-title *ngIf="website.status !== 'Avaliado'"> Avaliação não foi iniciada </h3>
     </mat-tab>
   </mat-tab-group>
   <mat-dialog-actions align="end">
