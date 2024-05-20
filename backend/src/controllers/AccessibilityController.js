@@ -2,7 +2,7 @@ const { QualWeb } = require("@qualweb/core");
 const Website = require("../models/website");
 
 const plugins = {
-    adBlock: true,
+    adBlock: false,
     stealth: true
 };
 
@@ -11,6 +11,10 @@ const clusterOptions = {
     timeout: 60 * 1000,
     monitor: true
 };
+
+const launchOption = {
+    args: ['--no-sandbox', '--ignore-certificate-errors']
+}
 
 const ignoreModule = "best-practices";
 
@@ -69,7 +73,7 @@ class AccessibilityController {
         return await Promise.all(pages.map(async page => {
             try {
                 const qualweb = new QualWeb(plugins);
-                await qualweb.start(clusterOptions);
+                await qualweb.start(clusterOptions, launchOption);
                 const report = await qualweb.evaluate({ url: domain + page.relativePath });
                 await qualweb.stop();
                 const finalReport = this.buildReport(report);

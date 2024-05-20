@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node src/app.js",
-    "start:dev": "nodemon src/app.js"
+    "start:dev": "nodemon src/app.js",
+    "prestart:dev": "start-datasource-container.sh"
   },
   "dependencies": {
     "@qualweb/core": "^0.7.71",
