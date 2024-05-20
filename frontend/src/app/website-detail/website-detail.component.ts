@@ -1,9 +1,10 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { Website } from "../shared/models/website.model";
 import { WebsiteService } from "../core/website.service";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { WebsitesComponent } from "../websites/websites.component";
 import { Page, PageStatus } from "../shared/models/page.model";
+import { PageDetailComponent } from "../page-detail/page-detail.component";
 
 export interface TableElememt{
   position:number;
@@ -20,7 +21,7 @@ export interface TableElememt{
 })
 export class WebsiteDetailComponent implements OnInit {
   website?: Website;
-    pagess: Page[] = [];
+  pagess: Page[] = [];
   a_error = 0;
   aa_error = 0;
   aaa_error = 0;
@@ -35,13 +36,14 @@ export class WebsiteDetailComponent implements OnInit {
   displayedColumns: string[] = ['total', 'percentagem', 'type'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   data: TableElememt[] = [];
-
+  
   constructor(
     private webService: WebsiteService,
     @Inject(MAT_DIALOG_DATA) public websiteId: string,
-    private websitesComponent: WebsitesComponent
+    private websitesComponent: WebsitesComponent,
+    private dialog: MatDialog
   ){}
-
+  
   async ngOnInit(): Promise<void> {
     this.getWebsite()
   }
@@ -55,7 +57,7 @@ export class WebsiteDetailComponent implements OnInit {
       this.getData(website);
     });
   }
-
+  
   getData(website: Website){
     website.pages.forEach(page =>{
       var has_a = false;
@@ -99,7 +101,7 @@ export class WebsiteDetailComponent implements OnInit {
   }
 
 
-
+  
   getWebsites(): void {
     this.webService.getWebsites()
       .subscribe(websites => {
@@ -107,11 +109,22 @@ export class WebsiteDetailComponent implements OnInit {
         this.websitesComponent.websitesToBePresented = websites;
         this.websitesComponent.sortData(this.websitesComponent.activeSort);
       });
-  }
-
-  removeWebsite(website:Website) {
-    this.webService.deleteWebsite(website);
+    }
+    
+    removeWebsite(website:Website) {
+      this.webService.deleteWebsite(website);
     this.websitesComponent.removeFromList(website);
     this.webService.getWebsites();
+  }
+
+  evaluationDetails(page: Page) {
+    const dialogRef = this.dialog.open(PageDetailComponent, {
+      height: "65%",
+      width: "100%",
+      data: page,
+    });
+    dialogRef.afterClosed().subscribe(_ => {
+      this.webService.getWebsites();
+    })
   }
 }

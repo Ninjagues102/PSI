@@ -26,6 +26,9 @@
               <div class="entry">
                 <h4>Última avaliação: </h4><span>{{ (page.lastEvaluationDate | date:"short") || "N/A" }}</span><br>
               </div>
+              <button [disabled] = "!page.lastEvaluationDate" (click)="evaluationDetails(page)" color="primary" mat-raised-button>
+                Detalhes Última Avaliação
+              </button>
             </mat-expansion-panel>
           </mat-accordion>
           <h3 *ngIf="website.pages.length === 0">Nenhuma página associada a este website</h3>
