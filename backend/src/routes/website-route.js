@@ -42,17 +42,6 @@ router.post("/", (req, res) => {
             console.error(err);
             res.sendStatus(500);
         });
-    
-    for(page in website.page){
-        page.save({ validateBeforeSave: true })
-        .then((newPage) => {
-            res.json(newPage);
-        })
-        .catch((err) => {
-            console.error(err);
-            res.sendStatus(500);
-        });
-    }
         
 });
 
