@@ -111,10 +111,10 @@ export class WebsiteDetailComponent implements OnInit {
       });
     }
     
-    removeWebsite(website:Website) {
+  removeWebsite(website:Website) {
+      console.log("ola1")
       this.webService.deleteWebsite(website);
-    this.websitesComponent.removeFromList(website);
-    this.webService.getWebsites();
+      this.websitesComponent.removeFromList(website);
   }
 
   evaluationDetails(page: Page) {
@@ -124,7 +124,6 @@ export class WebsiteDetailComponent implements OnInit {
       data: page._id,
     });
     dialogRef.afterClosed().subscribe(_ => {
-      this.webService.getWebsites();
     })
   }
 }
