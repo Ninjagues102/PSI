@@ -120,8 +120,6 @@ export class WebsitesComponent implements OnInit {
     this.webService.deleteWebsite(website);
     this.removeFromList(website);
     this.webService.getWebsites();
-    window.location.reload();
-
   }
 
   removeFromList(website : Website){
