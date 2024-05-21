@@ -121,7 +121,7 @@ export class WebsiteDetailComponent implements OnInit {
     const dialogRef = this.dialog.open(PageDetailComponent, {
       height: "65%",
       width: "100%",
-      data: page,
+      data: page._id,
     });
     dialogRef.afterClosed().subscribe(_ => {
       this.webService.getWebsites();

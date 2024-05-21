@@ -33,12 +33,17 @@ export class WebsiteService {
     return this.httpClient.get<Website>(url, { headers: this.headers });
   }
 
+  getPage(id: string) {
+    const url = `${environment.backend_url}/page/${id}`;
+    return this.httpClient.get<Page>(url, { headers: this.headers });
+  }
+  
   addWebsite(website: Website): void {
     this.httpClient.post<Website>(this.apiUrl, website, { headers: this.headers }).subscribe(_ =>
       this.getWebsites(),
     );
   }
-
+  
   processPages(websiteId: string, pages: PageProcessDto): BehaviorSubject<WebsiteStatus> {
     this.httpClient.post<[ Page ]>(`${this.apiUrl}/process/${websiteId}`, pages, { headers: this.headers }).subscribe(_ =>
       this.getWebsites(),
