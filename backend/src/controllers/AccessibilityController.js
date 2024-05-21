@@ -25,7 +25,9 @@ class AccessibilityController {
                 .catch(err => reject(err));
 
             const pageReports = await this.getPageReports(domain, pagesToProcess);
-
+            console.log("------------");
+            console.log(pageReports);
+            
             const now = new Date();
 
             Website.findById(websiteId)
@@ -47,6 +49,7 @@ class AccessibilityController {
                         }
 
                         pageToUpdate.evaluation = { modules: pageReport.reports };
+                        pageToUpdate.tests_info = { tests_info: pageReport.tests_info};
                     });
 
                     website.pages = pages;
@@ -70,16 +73,19 @@ class AccessibilityController {
     }
 
     async getPageReports(domain, pages) {
+        var i = 0;
         return await Promise.all(pages.map(async page => {
             try {
                 const qualweb = new QualWeb(plugins);
                 await qualweb.start(clusterOptions, launchOption);
                 const report = await qualweb.evaluate({ url: domain + page.relativePath });
                 await qualweb.stop();
-                const finalReport = this.buildReport(report);
+                const finalReport = this.buildReport(report,i);
+                i+=1;
                 return {
                     pageId: page._id.toString(),
-                    reports: finalReport
+                    reports: finalReport[0]["modules"],
+                    tests: finalReport[0]["tests"]
                 };
             } catch (err) {
                 console.error(err);
@@ -91,20 +97,38 @@ class AccessibilityController {
         }));
     }
 
-    buildReport(report) {
-        return Object.entries(report).map(([_, page]) => {
-            return Object.entries(page["modules"])
-                .filter(([moduleName, _]) => moduleName !== ignoreModule)
-                .map(([moduleName, module]) => {
-                    return {
-                        module: moduleName,
-                        fail_levels: this.handleModule(module)
-                    };
-                })
-                .reduce((acc, module) => acc.concat([module]), [])
-                .flat();
-        }).flat();
+    buildReport(report,i) {
+        console.log(Object.entries(report));
+        var ola = Object.entries(report).map(([_, page]) => {
+            return{
+                modules: this.entryModules(page).flat(),
+                tests: this.entryTests(page).flat(),
+            } 
+        })
+        console.log("---------------")
+        console.log(ola)
+        return ola;
     }
+
+    entryTests(page){
+        console.log("-------------")
+        console.log(Object.entries(page["metadata"]))
+        return Object.entries(page["metadata"])
+    }
+
+    entryModules(page){
+        return Object.entries(page["modules"])
+            .filter(([moduleName, _]) => moduleName !== ignoreModule)
+            .map(([moduleName, module]) => {
+                return {
+                    module: moduleName,
+                    fail_levels: this.handleModule(module)
+                };
+            })
+            .reduce((acc, module) => acc.concat([module]), [])
+            .flat()
+    }
+
 
     handleModule(module) {
         return Object.values(module["assertions"])
