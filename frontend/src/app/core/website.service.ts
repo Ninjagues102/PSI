@@ -6,7 +6,6 @@ import { environment } from "../../environments/environment";
 import { Page, PageProcessDto } from "../shared/models/page.model";
 import { DeleteWebsiteComponent } from "../features/delete-website/delete-website.component";
 import { MatDialog } from "@angular/material/dialog";
-import { WebsitesComponent } from "../websites/websites.component";
 
 @Injectable({
   providedIn: "root",
@@ -18,12 +17,12 @@ export class WebsiteService {
     "Cache-Control": "no-cache",
     "Pragma": "no-cache",
   });
-  
 
-  constructor(private httpClient: HttpClient, private dialog: MatDialog, private websitesComponent: WebsitesComponent) {
+
+  constructor(private httpClient: HttpClient, private dialog: MatDialog) {
     this.apiUrl = `${environment.backend_url}/website`;
   }
-  
+
   getWebsites(): Observable<Website[]> {
     this.httpClient.get<Website[]>(this.apiUrl, { headers: this.headers }).subscribe(websites => this.websites.next(websites));
     return this.websites;
@@ -46,16 +45,15 @@ export class WebsiteService {
     );
     return new BehaviorSubject<WebsiteStatus>(WebsiteStatus.IN_EVALUATION);
   }
-  
+
   deleteWebsite(website : Website) {
-    
     if(website.pages.length > 0){
       const dialogRef = this.dialog.open(DeleteWebsiteComponent, {
         height: "28%",
         width: "28%",
         data: website,
       });
-  
+
       dialogRef.afterClosed().subscribe(_ => {
         this.getWebsites();
       });
