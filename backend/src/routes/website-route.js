@@ -43,17 +43,6 @@ router.post("/", (req, res) => {
             res.sendStatus(500);
         });
 
-    for(page in website.page){
-        page.save({ validateBeforeSave: true })
-        .then((newPage) => {
-            res.json(newPage);
-        })
-        .catch((err) => {
-            console.error(err);
-            res.sendStatus(500);
-        });
-    }
-
 });
 
 router.post("/process/:id", async (req, res) => {
