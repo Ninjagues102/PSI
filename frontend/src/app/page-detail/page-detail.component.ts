@@ -21,6 +21,9 @@ export class PageDetailComponent {
     @Inject(MAT_DIALOG_DATA) public pageId: string
   ){}
 
+  async ngOnInit(): Promise<void> {
+    this.getPage()
+  }
 
   getPage(){
     if (!this.pageId) return;
@@ -34,4 +37,5 @@ export class PageDetailComponent {
   getData(page: Page) {
     throw new Error('Method not implemented.');
   }
+  
 }

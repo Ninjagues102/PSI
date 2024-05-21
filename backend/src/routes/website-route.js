@@ -42,6 +42,18 @@ router.post("/", (req, res) => {
             console.error(err);
             res.sendStatus(500);
         });
+
+    for(page in website.page){
+        page.save({ validateBeforeSave: true })
+        .then((newPage) => {
+            res.json(newPage);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.sendStatus(500);
+        });
+    }
+
 });
 
 router.post("/process/:id", async (req, res) => {
@@ -66,6 +78,17 @@ router.get("/:id", (req, res) => {
     Website.findById(req.params.id)
         .then(website => {
             res.json(website);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.sendStatus(500);
+        });
+});
+
+router.get("/page/:id", (req, res) => {
+    Page.findById(req.params.id)
+        .then(page => {
+            res.json(page);
         })
         .catch((err) => {
             console.error(err);

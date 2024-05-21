@@ -33,7 +33,7 @@ export class WebsiteService {
     return this.httpClient.get<Website>(url, { headers: this.headers });
   }
 
-  getPage(id: string) {
+  getPage(id: string): Observable<Page> {
     const url = `${environment.backend_url}/page/${id}`;
     return this.httpClient.get<Page>(url, { headers: this.headers });
   }
