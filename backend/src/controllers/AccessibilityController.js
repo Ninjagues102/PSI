@@ -7,7 +7,7 @@ const plugins = {
 };
 
 const clusterOptions = {
-    maxConcurrency: 4,
+    maxConcurrency: 1,
     timeout: 60 * 1000,
     monitor: true
 };
