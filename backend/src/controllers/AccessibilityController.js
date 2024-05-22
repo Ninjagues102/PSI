@@ -2,8 +2,7 @@ const { QualWeb } = require("@qualweb/core");
 const Website = require("../models/website");
 
 const plugins = {
-    adBlock: false,
-    stealth: true
+    adBlock: false
 };
 
 const clusterOptions = {
