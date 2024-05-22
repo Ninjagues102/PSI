@@ -73,6 +73,10 @@ router.get("/:id", (req, res) => {
         });
 });
 
+router.get("/report/:format/:id", (req, res) => {
+
+});
+
 
 router.get("/:id/delete", websiteController.website_delete_get);
 

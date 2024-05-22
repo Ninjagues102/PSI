@@ -1,15 +1,15 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { Website } from "../shared/models/website.model";
+import { Website, WebsiteStatus } from "../shared/models/website.model";
 import { WebsiteService } from "../core/website.service";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { WebsitesComponent } from "../websites/websites.component";
-import { Page, PageStatus } from "../shared/models/page.model";
+import { PageStatus } from "../shared/models/page.model";
 
-export interface TableElememt{
-  position:number;
-  total:number;
-  percentagem:number;
-  type:String;
+export interface TableElement {
+  position: number;
+  total: number;
+  percentagem: number;
+  type: String;
 }
 
 
@@ -20,7 +20,6 @@ export interface TableElememt{
 })
 export class WebsiteDetailComponent implements OnInit {
   website?: Website;
-    pagess: Page[] = [];
   a_error = 0;
   aa_error = 0;
   aaa_error = 0;
@@ -31,10 +30,9 @@ export class WebsiteDetailComponent implements OnInit {
   per_aaa = 0;
   per_error = 0;
   per_no_error = 0;
-  module_errors = new Map<String, number>();
   displayedColumns: string[] = ['total', 'percentagem', 'type'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
-  data: TableElememt[] = [];
+  data: TableElement[] = [];
 
   constructor(
     private webService: WebsiteService,
@@ -45,8 +43,7 @@ export class WebsiteDetailComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.getWebsite()
   }
-  
-  
+
   getWebsite(){
     if (!this.websiteId) return;
     this.webService.getWebsite(this.websiteId)
@@ -55,30 +52,35 @@ export class WebsiteDetailComponent implements OnInit {
       this.getData(website);
     });
   }
+  protected readonly WebsiteStatus = WebsiteStatus;
+
+  removeWebsite(website:Website) {
+    this.webService.deleteWebsite(website);
+    this.websitesComponent.removeFromList(website);
+    this.webService.getWebsites();
+  }
 
   getData(website: Website){
-    website.pages.forEach(page =>{
-      var has_a = false;
-      var has_aa = false;
-      var has_aaa = false;
-      if(page.status==PageStatus.COMPLIANT){
-        this.no_error+=1;
+    website.pages.forEach(page => {
+      let has_a = false;
+      let has_aa = false;
+      let has_aaa = false;
+      if (page.status == PageStatus.COMPLIANT) {
+        this.no_error += 1;
       }
       else{
-        this.error+=1;
+        this.error += 1;
         page.evaluation.modules.forEach(m => {
-          var ola = this.module_errors.get(m.module)||0;
-          this.module_errors.set(m.module,ola+1)
           m.fail_levels.forEach(level => {
-            if(level=="A" && !has_a){
+            if (level == "A" && !has_a) {
               has_a=true;
-              this.a_error+=1;
-            }else if(level=="AA" && !has_aa){
+              this.a_error += 1;
+            } else if (level == "AA" && !has_aa) {
               has_aa=true;
-              this.aa_error+=1;
-            }else if(level=="AAA" && !has_aaa){
+              this.aa_error += 1;
+            } else if (level == "AAA" && !has_aaa) {
               has_aaa=true;
-              this.aaa_error+=1;
+              this.aaa_error += 1;
             }
           });
         });
@@ -96,22 +98,5 @@ export class WebsiteDetailComponent implements OnInit {
       {position:4, total: this.aa_error, percentagem: this.per_aa, type: "AA"},
       {position:5, total: this.aaa_error, percentagem: this.per_aaa, type: "AAA"},
     ]
-  }
-
-
-
-  getWebsites(): void {
-    this.webService.getWebsites()
-      .subscribe(websites => {
-        this.websitesComponent.websites = websites;
-        this.websitesComponent.websitesToBePresented = websites;
-        this.websitesComponent.sortData(this.websitesComponent.activeSort);
-      });
-  }
-
-  removeWebsite(website:Website) {
-    this.webService.deleteWebsite(website);
-    this.websitesComponent.removeFromList(website);
-    this.webService.getWebsites();
   }
 }

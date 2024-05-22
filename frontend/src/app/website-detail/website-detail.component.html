@@ -33,17 +33,17 @@
       </div>
     </mat-tab>
     <mat-tab label="Avaliação info">
-      <table *ngIf="website.status === 'Avaliado'" mat-table [dataSource]="data" class="mat-elevation-z8">
+      <table *ngIf="website.status === WebsiteStatus.EVALUATED" [dataSource]="data" class="mat-elevation-z8" mat-table>
         <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
           <th mat-header-cell *matHeaderCellDef> {{column}} </th>
           <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
         </ng-container>
-      
+
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
       </table>
-      <h3 mat-dialog-title *ngIf="website.status === 'Erro na avaliação'"> Erro na avaliação </h3>
-      <h3 mat-dialog-title *ngIf="website.status !== 'Avaliado'"> Avaliação não foi iniciada </h3>
+      <h3 *ngIf="website.status === WebsiteStatus.EVALUATION_ERROR" mat-dialog-title> Erro na avaliação </h3>
+      <h3 *ngIf="website.status !== WebsiteStatus.EVALUATED" mat-dialog-title> Avaliação não foi iniciada </h3>
     </mat-tab>
   </mat-tab-group>
   <mat-dialog-actions align="end">
