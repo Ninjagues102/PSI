@@ -26,7 +26,7 @@ class AccessibilityController {
 
             const pageReports = await this.getPageReports(domain, pagesToProcess);
             console.log("------------PageReport");
-            console.log(pageReports[0]);
+            console.log(pageReports[0].tests);
             
             const now = new Date();
 
@@ -82,7 +82,8 @@ class AccessibilityController {
                 const finalReport = this.buildReport(report);
                 const finalTests = this.buildTests(report);
                 console.log("-------------finalReport")
-                console.log(finalReport.flat())
+                console.log(finalReport)
+                console.log(finalTests)
                 return {
                     pageId: page._id.toString(),
                     reports: finalReport,
@@ -110,56 +111,9 @@ class AccessibilityController {
                 })
                 .reduce((acc, module) => acc.concat([module]), [])
                 .flat();
-        }).flat();
+            }).flat();
     }
-
-    buildTests(report) {
-        return Object.entries(report).map(([_, page]) => {
-            return Object.entries(page["modules"])
-                .filter(([moduleName, _]) => moduleName !== ignoreModule)
-                .map(([moduleName, module]) => {
-                    return {
-                        module: moduleName,
-                        tests: this.handleTests(module)
-                    };
-                })
-                .reduce((acc, module) => acc.concat([module]), [])
-                .flat();
-        }).flat();
-    }
-
-    entryTests(page){
-        return {
-            passed: Object.entries(page["metadata"])[0][1],
-            warning: Object.entries(page["metadata"])[1][1],
-            failed: Object.entries(page["metadata"])[2][1],
-            inapplicable: Object.entries(page["metadata"])[3][1]
-        }
-    }
-
-    entryModules(page){
-        return Object.entries(page["modules"])
-            .filter(([moduleName, _]) => moduleName !== ignoreModule)
-            .map(([moduleName, module]) => {
-                return {
-                    module: moduleName,
-                    list: this.handleTests(module)
-                };
-            })
-    }
-
-    handleTests(module){
-        return Object.values(module["assertions"])
-            .map(assertion => assertion["results"])
-            .map(results => results.map(result => {
-                return {
-                    resultados: result["verdict"],
-                    identificador: result["resultCode"],
-                    atributos: result["attributes"]
-                }
-            })).flat()
-    }
-
+        
     handleModule(module) {
         return Object.values(module["assertions"])
             .map(assertion => assertion["metadata"])
@@ -169,6 +123,33 @@ class AccessibilityController {
             })
             .flat();
     }
+
+    buildTests(report) {
+        return Object.entries(report).map(([_, page]) => {
+            return Object.entries(page["modules"])
+                .filter(([moduleName, _]) => moduleName !== ignoreModule)
+                .map(([moduleName, module]) => {
+                    return {
+                        module: moduleName,
+                        list: this.handleTestes(module)
+                    };
+                })
+                .reduce((acc, module) => acc.concat([module]), [])
+                .flat();
+        }).flat();
+    }
+
+    handleTestes(module) {
+        return Object.values(module["assertions"])
+            .map(assertion => assertion["results"])
+            .map(results => results.map(r => {
+                return {
+                    verdict: r["verdict"],
+                    identificador: r["resultCode"],
+                }
+            })).flat();
+    }
+
 }
 
 const websitePossStatus = ["Por Avaliar", "Em Avaliação", "Avaliado", "Erro na avaliação"];
