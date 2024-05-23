@@ -26,7 +26,7 @@ class AccessibilityController {
 
             const pageReports = await this.getPageReports(domain, pagesToProcess);
             console.log("------------PageReport");
-            console.log(pageReports[0].tests);
+            console.log(pageReports[0]);
             
             const now = new Date();
 
@@ -48,8 +48,11 @@ class AccessibilityController {
                             pageToUpdate.status = getStatus(1);
                         }
 
-                        pageToUpdate.evaluation = { modules: pageReport.reports };
-                        pageToUpdate.evaluation = { tests_info: pageReport.tests };
+                        pageToUpdate.evaluation = { 
+                            modules: pageReport.reports,
+                            tests_info: pageReport.tests,
+                            percentagens: pageReport.per
+                         };
                     });
 
                     website.pages = pages;
@@ -81,13 +84,19 @@ class AccessibilityController {
                 await qualweb.stop();
                 const finalReport = this.buildReport(report);
                 const finalTests = this.buildTests(report);
+                const finalPer = this.buildPer(report);
                 console.log("-------------finalReport")
                 console.log(finalReport)
+                console.log("--------------finalTests")
                 console.log(finalTests)
+                console.log("--------------finalPer")
+                console.log(finalPer)
+
                 return {
                     pageId: page._id.toString(),
                     reports: finalReport,
-                    tests: finalTests
+                    tests: finalTests,
+                    per: finalPer
                 };
             } catch (err) {
                 console.error(err);
@@ -148,6 +157,17 @@ class AccessibilityController {
                     identificador: r["resultCode"],
                 }
             })).flat();
+    }
+
+    buildPer(report) {
+        return Object.entries(report).map(([_, page]) => {
+            return{
+                passed: Object.entries(page["metadata"])[0][1],
+                warning: Object.entries(page["metadata"])[1][1],
+                failed: Object.entries(page["metadata"])[2][1],
+                inapplicable: Object.entries(page["metadata"])[3][1]
+            }
+        }).flat()
     }
 
 }
