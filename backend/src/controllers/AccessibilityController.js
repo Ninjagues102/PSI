@@ -80,10 +80,12 @@ class AccessibilityController {
                 const report = await qualweb.evaluate({ url: domain + page.relativePath });
                 await qualweb.stop();
                 const finalReport = this.buildReport(report);
+                console.log("-------------finalReport")
+                console.log(finalReport.modules)
                 return {
                     pageId: page._id.toString(),
-                    reports: finalReport[0]["modules"],
-                    tests: finalReport[0]["tests"]
+                    reports: finalReport.modules,
+                    tests: finalReport.testes
                 };
             } catch (err) {
                 console.error(err);
@@ -98,10 +100,10 @@ class AccessibilityController {
     buildReport(report) {
         return Object.entries(report).map(([_, page]) => {
             return{
-                modules: this.entryModules(page).flat(),
+                modules: this.entryModules(page),
                 tests: this.entryTests(page),
             } 
-        })
+        }).flat()
     }
 
     entryTests(page){
