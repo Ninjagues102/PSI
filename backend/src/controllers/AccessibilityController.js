@@ -80,12 +80,13 @@ class AccessibilityController {
                 const report = await qualweb.evaluate({ url: domain + page.relativePath });
                 await qualweb.stop();
                 const finalReport = this.buildReport(report);
+                const finalTests = this.buildTests(report);
                 console.log("-------------finalReport")
                 console.log(finalReport.flat())
                 return {
                     pageId: page._id.toString(),
-                    reports: finalReport[0].modules,
-                    tests: finalReport[0].tests
+                    reports: finalReport,
+                    tests: finalTests
                 };
             } catch (err) {
                 console.error(err);
@@ -99,11 +100,32 @@ class AccessibilityController {
 
     buildReport(report) {
         return Object.entries(report).map(([_, page]) => {
-            return{
-                modules: this.entryModules(page),
-                tests: this.entryTests(page),
-            } 
-        })
+            return Object.entries(page["modules"])
+                .filter(([moduleName, _]) => moduleName !== ignoreModule)
+                .map(([moduleName, module]) => {
+                    return {
+                        module: moduleName,
+                        fail_levels: this.handleModule(module)
+                    };
+                })
+                .reduce((acc, module) => acc.concat([module]), [])
+                .flat();
+        }).flat();
+    }
+
+    buildTests(report) {
+        return Object.entries(report).map(([_, page]) => {
+            return Object.entries(page["modules"])
+                .filter(([moduleName, _]) => moduleName !== ignoreModule)
+                .map(([moduleName, module]) => {
+                    return {
+                        module: moduleName,
+                        tests: this.handleTests(module)
+                    };
+                })
+                .reduce((acc, module) => acc.concat([module]), [])
+                .flat();
+        }).flat();
     }
 
     entryTests(page){
@@ -121,7 +143,6 @@ class AccessibilityController {
             .map(([moduleName, module]) => {
                 return {
                     module: moduleName,
-                    fail_levels: this.handleModule(module),
                     list: this.handleTests(module)
                 };
             })
