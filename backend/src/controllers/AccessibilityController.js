@@ -25,7 +25,7 @@ class AccessibilityController {
                 .catch(err => reject(err));
 
             const pageReports = await this.getPageReports(domain, pagesToProcess);
-            console.log("------------");
+            console.log("------------PageReport");
             console.log(pageReports);
             
             const now = new Date();
@@ -49,7 +49,7 @@ class AccessibilityController {
                         }
 
                         pageToUpdate.evaluation = { modules: pageReport.reports };
-                        pageToUpdate.tests_info = { tests_info: pageReport.tests_info};
+                        pageToUpdate.evaluation = { tests_info: pageReport.tests };
                     });
 
                     website.pages = pages;
@@ -73,15 +73,13 @@ class AccessibilityController {
     }
 
     async getPageReports(domain, pages) {
-        var i = 0;
         return await Promise.all(pages.map(async page => {
             try {
                 const qualweb = new QualWeb(plugins);
                 await qualweb.start(clusterOptions, launchOption);
                 const report = await qualweb.evaluate({ url: domain + page.relativePath });
                 await qualweb.stop();
-                const finalReport = this.buildReport(report,i);
-                i+=1;
+                const finalReport = this.buildReport(report);
                 return {
                     pageId: page._id.toString(),
                     reports: finalReport[0]["modules"],
@@ -97,23 +95,19 @@ class AccessibilityController {
         }));
     }
 
-    buildReport(report,i) {
-        console.log(Object.entries(report));
-        var ola = Object.entries(report).map(([_, page]) => {
+    buildReport(report) {
+        return Object.entries(report).map(([_, page]) => {
             return{
                 modules: this.entryModules(page).flat(),
-                tests: this.entryTests(page).flat(),
+                tests: this.entryTests(page),
             } 
         })
-        console.log("---------------")
-        console.log(ola)
-        return ola;
     }
 
     entryTests(page){
-        console.log("-------------")
-        console.log(Object.entries(page["metadata"]))
-        return Object.entries(page["metadata"])
+        return {
+            percentagens: Object.entries(page["metadata"]).flat(),
+        }
     }
 
     entryModules(page){
@@ -122,13 +116,25 @@ class AccessibilityController {
             .map(([moduleName, module]) => {
                 return {
                     module: moduleName,
-                    fail_levels: this.handleModule(module)
+                    fail_levels: this.handleModule(module),
+                    tests: this.handleTests(module)
                 };
             })
             .reduce((acc, module) => acc.concat([module]), [])
             .flat()
     }
 
+    handleTests(module){
+        return Object.values(module["assertions"])
+            .map(assertion => assertion["results"])
+            .map(results => results.map(result => {
+                return {
+                    resultados: result["verdict"],
+                    identificador: result["resultCode"],
+                    atributos: result["attributes"]
+                }
+            })).flat()
+    }
 
     handleModule(module) {
         return Object.values(module["assertions"])
