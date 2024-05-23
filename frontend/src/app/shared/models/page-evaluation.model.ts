@@ -7,22 +7,22 @@ export interface PageEvaluation{
     ],
     testes_info?:[
         {
-            module?: String,
+            module?: string,
             tests?:
             [
                 {
-                    verdict?: String,
-                    identificador?: String
+                    verdict?: string,
+                    identificador?: string
                 }
             ]
         }
     ],
     percentagens:[
         {
-            passed:Number,
-            warning: Number,
-            failed: Number,
-            inapplicable: Number,
+            passed:number,
+            warning: number,
+            failed: number,
+            inapplicable: number,
         }
 
     ]

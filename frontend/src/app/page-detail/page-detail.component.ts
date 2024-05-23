@@ -40,6 +40,11 @@ export class PageDetailComponent {
   columnsToDisplay: string[] = this.displayedColumns.slice();
   data: TableElememt[] = [];
   page ?: Page;
+  failed = 0
+  passed = 0
+  warning = 0
+  inapplicable = 0
+  total = 0
   protected activeFilter: string[] = [];
   testToBePresented: any;
   tests: any;
@@ -64,7 +69,19 @@ export class PageDetailComponent {
   }
   
   getData(page: Page) {
-    page.evaluation.percentagens[0].failed
+    this.failed = page.evaluation.percentagens[0].failed
+    this.passed = page.evaluation.percentagens[0].passed
+    this.warning = page.evaluation.percentagens[0].warning
+    this.inapplicable = page.evaluation.percentagens[0].inapplicable
+    this.total = this.failed + this.passed + this.warning + this.inapplicable
+
+
+    this.data = [
+      {position:1, total: this.passed, percentagem: (this.passed/this.total) * 100, type: "Passed"},
+      {position:2, total: this.failed, percentagem: (this.failed/this.total) * 100, type: "Failed"},
+      {position:3, total: this.warning, percentagem: (this.warning/this.total) * 100, type: "Warning"},
+      {position:4, total: this.passed, percentagem: (this.passed/this.total) * 100, type: "Passed"},
+    ]
   }
   
   clearFilters() {
