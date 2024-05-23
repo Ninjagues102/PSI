@@ -14,14 +14,14 @@ const pageEvaluationSchema = new mongoose.Schema({
             ]
         }
     ],
-    tests_info:[
+    tests_info:
         {
-            tests_passed: {type: Number,},
-            tests_warning: {type: Number,},
-            tests_failed: {type: Number,},
-            tests_inapplicable: {type: Number,}
+            tests_passed: {type: [String, Number],},
+            tests_warning: {type: [String, Number],},
+            tests_failed: {type: [String, Number],},
+            tests_inapplicable: {type: [String, Number],}
         }
-    ]
+    
 });
 
 const PageEvaluation = mongoose.model("PageEvaluation", pageEvaluationSchema);
