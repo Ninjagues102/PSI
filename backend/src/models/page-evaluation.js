@@ -9,13 +9,21 @@ const pageEvaluationSchema = new mongoose.Schema({
     ],
     tests_info:[
         {
-            module: { type: String},
+            module: { type: String, required: false},
             tests:[
                 {
-                    verdict: { type: String},
-                    identificador: { type: String}
+                    verdict: { type: String, required: false },
+                    identificador: { type: String, required: false }
                 }
             ]
+        }
+    ],
+    percentagens:[
+        {
+            passed: { type: Number, required: false },
+            warning: { type: Number, required: false },
+            failed: { type: Number, required: false },
+            inapplicable: { type: Number, required: false },
         }
     ]
     
