@@ -3,6 +3,7 @@ import { Page } from '../shared/models/page.model';
 import { TableElememt } from '../website-detail/website-detail.component';
 import { WebsiteService } from '../core/website.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { Website } from '../shared/models/website.model';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class PageDetailComponent {
 
   constructor(
     private webService: WebsiteService,
-    @Inject(MAT_DIALOG_DATA) public pageId: string
+    @Inject(MAT_DIALOG_DATA) public info: [string, Website]
   ){}
 
   async ngOnInit(): Promise<void> {
@@ -26,12 +27,8 @@ export class PageDetailComponent {
   }
 
   getPage(){
-    if (!this.pageId) return;
-    this.webService.getPage(this.pageId)
-    .subscribe(page =>{
-      this.page = page;
-      this.getData(page);
-    });
+    if (!this.info[1]) return;
+    this.page = this.info[1].pages.find(page => page._id === this.info[0])
   }
   
   getData(page: Page) {
