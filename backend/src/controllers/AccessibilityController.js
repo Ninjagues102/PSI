@@ -25,8 +25,6 @@ class AccessibilityController {
                 .catch(err => reject(err));
 
             const pageReports = await this.getPageReports(domain, pagesToProcess);
-            console.log("------------PageReport");
-            console.log(pageReports[0]);
             
             const now = new Date();
 
@@ -85,12 +83,6 @@ class AccessibilityController {
                 const finalReport = this.buildReport(report);
                 const finalTests = this.buildTests(report);
                 const finalPer = this.buildPer(report);
-                console.log("-------------finalReport")
-                console.log(finalReport)
-                console.log("--------------finalTests")
-                console.log(finalTests)
-                console.log("--------------finalPer")
-                console.log(finalPer)
 
                 return {
                     pageId: page._id.toString(),
