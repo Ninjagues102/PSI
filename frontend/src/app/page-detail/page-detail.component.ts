@@ -80,7 +80,7 @@ export class PageDetailComponent {
       {position:1, total: this.passed, percentagem: (this.passed/this.total) * 100, type: "Passed"},
       {position:2, total: this.failed, percentagem: (this.failed/this.total) * 100, type: "Failed"},
       {position:3, total: this.warning, percentagem: (this.warning/this.total) * 100, type: "Warning"},
-      {position:4, total: this.passed, percentagem: (this.passed/this.total) * 100, type: "Passed"},
+      {position:4, total: this.inapplicable, percentagem: (this.inapplicable/this.total) * 100, type: "Inapplicable"},
     ]
   }
   
