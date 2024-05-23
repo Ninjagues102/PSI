@@ -11,7 +11,71 @@
                 <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
               </table>
         </mat-tab>
-        <mat-tab label="Lista testes"></mat-tab>
+        <mat-tab label="Lista testes">
+          <div id="menuFiltros">
+            <button [matMenuTriggerData]="{activeFilter: activeFilter}" [matMenuTriggerFor]="filtersElement" extended mat-fab>
+              <mat-icon>filter_list</mat-icon>
+              <span>Tipo de teste</span>
+            </button>
+            <mat-menu #filtersElement="matMenu">
+              <ng-template let-activeFilter="activeFilter" matMenuContent>
+                <button (click)="clearFilters()" *ngIf="activeFilter" mat-menu-item>
+                  <mat-icon>filter_list_off</mat-icon>
+                  <span>Remover filtros</span>
+                </button>
+                <mat-divider *ngIf="activeFilter"></mat-divider>
+                <button (click)="onFilterChange(filter.status)" *ngFor="let filter of filters" mat-menu-item>
+                  <span>{{ filter.status }}</span>
+                </button>
+              </ng-template>
+            </mat-menu>
+  
+            <button [matMenuTriggerData]="{activeFilter: activeFilter}" [matMenuTriggerFor]="filtersElement" extended mat-fab>
+              <mat-icon>filter_list</mat-icon>
+              <span>Resultados</span>
+            </button>
+            <mat-menu #filtersElement="matMenu">
+              <ng-template let-activeFilter="activeFilter" matMenuContent>
+                <button (click)="clearFilters()" *ngIf="activeFilter" mat-menu-item>
+                  <mat-icon>filter_list_off</mat-icon>
+                  <span>Remover filtros</span>
+                </button>
+                <mat-divider *ngIf="activeFilter"></mat-divider>
+                <button (click)="onFilterChange(filter.status)" *ngFor="let filter of filters" mat-menu-item>
+                  <span>{{ filter.status }}</span>
+                </button>
+              </ng-template>
+            </mat-menu>
+  
+            <button [matMenuTriggerData]="{activeFilter: activeFilter}" [matMenuTriggerFor]="filtersElement" extended mat-fab>
+              <mat-icon>filter_list</mat-icon>
+              <span>Nível de conformidade</span>
+            </button>
+            <mat-menu #filtersElement="matMenu">
+              <ng-template let-activeFilter="activeFilter" matMenuContent>
+                <button (click)="clearFilters()" *ngIf="activeFilter" mat-menu-item>
+                  <mat-icon>filter_list_off</mat-icon>
+                  <span>Remover filtros</span>
+                </button>
+                <mat-divider *ngIf="activeFilter"></mat-divider>
+                <button (click)="onFilterChange(filter.status)" *ngFor="let filter of filters" mat-menu-item>
+                  <span>{{ filter.status }}</span>
+                </button>
+              </ng-template>
+            </mat-menu>
+          </div>
+
+          <div class="wrapper">
+            <div class="website-list">
+              <span *ngFor="let tests of testToBePresented" appearance="raised">
+                  test.name
+                  test.result
+              </span>
+            </div>
+          </div>
+
+
+        </mat-tab>
     </mat-tab-group>
     <mat-dialog-actions align="end">
         <button color="primary" mat-dialog-close mat-raised-button>Fechar</button>
