@@ -17,12 +17,12 @@ export interface PageEvaluation{
             ]
         }
     ],
-    percentagens?:[
+    percentagens:[
         {
-            passed?:Number,
-            warning?: Number,
-            failed?: Number,
-            inapplicable?: Number,
+            passed:Number,
+            warning: Number,
+            failed: Number,
+            inapplicable: Number,
         }
 
     ]
