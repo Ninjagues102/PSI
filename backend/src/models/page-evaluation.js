@@ -5,22 +5,19 @@ const pageEvaluationSchema = new mongoose.Schema({
         {
             module: { type: String, required: true },
             fail_levels: { type: [String], required: true, default: [] },
+        }
+    ],
+    tests_info:[
+        {
+            module: { type: String},
             tests:[
                 {
-                    resultado: { type: String },
-                    identificador: { type: String},
-                    atributos: { type: [String], default: [] }
+                    verdict: { type: String},
+                    identificador: { type: String}
                 }
             ]
         }
-    ],
-    tests_info:
-        {
-            tests_passed: {type: [String, Number],},
-            tests_warning: {type: [String, Number],},
-            tests_failed: {type: [String, Number],},
-            tests_inapplicable: {type: [String, Number],}
-        }
+    ]
     
 });
 
