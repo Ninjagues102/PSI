@@ -20,10 +20,10 @@ const pageEvaluationSchema = new mongoose.Schema({
     ],
     percentagens:[
         {
-            passed: { type: Number, required: false },
-            warning: { type: Number, required: false },
-            failed: { type: Number, required: false },
-            inapplicable: { type: Number, required: false },
+            passed: { type: Number, required: true, default: 0 },
+            warning: { type: Number, required: true, default: 0 },
+            failed: { type: Number, required: true, default: 0 },
+            inapplicable: { type: Number, required: true, default: 0 },
         }
     ]
     
