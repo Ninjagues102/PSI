@@ -75,12 +75,11 @@ export class PageDetailComponent {
     this.inapplicable = page.evaluation.percentagens[0].inapplicable
     this.total = this.failed + this.passed + this.warning + this.inapplicable
 
-
     this.data = [
       {position:1, total: this.passed, percentagem: (this.passed/this.total) * 100, type: "Passed"},
       {position:2, total: this.failed, percentagem: (this.failed/this.total) * 100, type: "Failed"},
       {position:3, total: this.warning, percentagem: (this.warning/this.total) * 100, type: "Warning"},
-      {position:4, total: this.passed, percentagem: (this.passed/this.total) * 100, type: "Passed"},
+      {position:4, total: this.inapplicable, percentagem: (this.inapplicable/this.total) * 100, type: "Inapplicable"},
     ]
   }
   
