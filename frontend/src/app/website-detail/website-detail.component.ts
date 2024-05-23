@@ -112,7 +112,6 @@ export class WebsiteDetailComponent implements OnInit {
     }
     
   removeWebsite(website:Website) {
-      console.log("ola1")
       this.webService.deleteWebsite(website);
       this.websitesComponent.removeFromList(website);
   }
@@ -121,7 +120,7 @@ export class WebsiteDetailComponent implements OnInit {
     const dialogRef = this.dialog.open(PageDetailComponent, {
       height: "65%",
       width: "100%",
-      data: page._id,
+      data: [page._id, this.website],
     });
     dialogRef.afterClosed().subscribe(_ => {
     })

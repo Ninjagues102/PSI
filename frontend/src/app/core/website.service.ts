@@ -33,11 +33,6 @@ export class WebsiteService {
     const url = `${this.apiUrl}/${id}`;
     return this.httpClient.get<Website>(url, { headers: this.headers });
   }
-
-  getPage(id: string): Observable<Page> {
-    const url = `${environment.backend_url}/page/${id}`;
-    return this.httpClient.get<Page>(url, { headers: this.headers });
-  }
   
   addWebsite(website: Website): void {
     this.httpClient.post<Website>(this.apiUrl, website, { headers: this.headers }).subscribe(_ =>
