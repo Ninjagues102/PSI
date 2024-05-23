@@ -25,7 +25,7 @@ class AccessibilityController {
                 .catch(err => reject(err));
 
             const pageReports = await this.getPageReports(domain, pagesToProcess);
-
+            console.log(pageReports)
             const now = new Date();
 
             Website.findById(websiteId)
