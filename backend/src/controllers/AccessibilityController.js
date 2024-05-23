@@ -26,7 +26,7 @@ class AccessibilityController {
 
             const pageReports = await this.getPageReports(domain, pagesToProcess);
             console.log("------------PageReport");
-            console.log(pageReports);
+            console.log(pageReports[0]);
             
             const now = new Date();
 
@@ -106,7 +106,10 @@ class AccessibilityController {
 
     entryTests(page){
         return {
-            percentagens: Object.entries(page["metadata"]).flat(),
+            passed: Object.entries(page["metadata"])[0][1],
+            warning: Object.entries(page["metadata"])[1][1],
+            failed: Object.entries(page["metadata"])[2][1],
+            inapplicable: Object.entries(page["metadata"])[3][1]
         }
     }
 
@@ -117,7 +120,7 @@ class AccessibilityController {
                 return {
                     module: moduleName,
                     fail_levels: this.handleModule(module),
-                    tests: this.handleTests(module)
+                    list: this.handleTests(module)
                 };
             })
             .reduce((acc, module) => acc.concat([module]), [])
