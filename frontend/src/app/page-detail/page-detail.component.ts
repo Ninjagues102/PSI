@@ -58,11 +58,13 @@ export class PageDetailComponent {
 
   getPage(){
     if (!this.info[1]) return;
-    this.page = this.info[1].pages.find(page => page._id === this.info[0])
+    this.page = this.info[1].pages.find(page => (
+                  page._id === this.info[0],
+                  this.getData(page)))
   }
   
   getData(page: Page) {
-    throw new Error('Method not implemented.');
+    page.evaluation.percentagens[0].failed
   }
   
   clearFilters() {
