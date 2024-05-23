@@ -25,7 +25,7 @@ class AccessibilityController {
                 .catch(err => reject(err));
 
             const pageReports = await this.getPageReports(domain, pagesToProcess);
-
+            
             const now = new Date();
 
             Website.findById(websiteId)
@@ -46,7 +46,11 @@ class AccessibilityController {
                             pageToUpdate.status = getStatus(1);
                         }
 
-                        pageToUpdate.evaluation = { modules: pageReport.reports };
+                        pageToUpdate.evaluation = { 
+                            modules: pageReport.reports,
+                            tests_info: pageReport.tests,
+                            percentagens: pageReport.per
+                         };
                     });
 
                     website.pages = pages;
@@ -77,9 +81,14 @@ class AccessibilityController {
                 const report = await qualweb.evaluate({ url: domain + page.relativePath });
                 await qualweb.stop();
                 const finalReport = this.buildReport(report);
+                const finalTests = this.buildTests(report);
+                const finalPer = this.buildPer(report);
+
                 return {
                     pageId: page._id.toString(),
-                    reports: finalReport
+                    reports: finalReport,
+                    tests: finalTests,
+                    per: finalPer
                 };
             } catch (err) {
                 console.error(err);
@@ -103,9 +112,9 @@ class AccessibilityController {
                 })
                 .reduce((acc, module) => acc.concat([module]), [])
                 .flat();
-        }).flat();
+            }).flat();
     }
-
+        
     handleModule(module) {
         return Object.values(module["assertions"])
             .map(assertion => assertion["metadata"])
@@ -115,6 +124,44 @@ class AccessibilityController {
             })
             .flat();
     }
+
+    buildTests(report) {
+        return Object.entries(report).map(([_, page]) => {
+            return Object.entries(page["modules"])
+                .filter(([moduleName, _]) => moduleName !== ignoreModule)
+                .map(([moduleName, module]) => {
+                    return {
+                        module: moduleName,
+                        list: this.handleTestes(module)
+                    };
+                })
+                .reduce((acc, module) => acc.concat([module]), [])
+                .flat();
+        }).flat();
+    }
+
+    handleTestes(module) {
+        return Object.values(module["assertions"])
+            .map(assertion => assertion["results"])
+            .map(results => results.map(r => {
+                return {
+                    verdict: r["verdict"],
+                    identificador: r["resultCode"],
+                }
+            })).flat();
+    }
+
+    buildPer(report) {
+        return Object.entries(report).map(([_, page]) => {
+            return{
+                passed: Object.entries(page["metadata"])[0][1],
+                warning: Object.entries(page["metadata"])[1][1],
+                failed: Object.entries(page["metadata"])[2][1],
+                inapplicable: Object.entries(page["metadata"])[3][1]
+            }
+        }).flat()
+    }
+
 }
 
 const websitePossStatus = ["Por Avaliar", "Em Avaliação", "Avaliado", "Erro na avaliação"];

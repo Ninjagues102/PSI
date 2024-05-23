@@ -16,15 +16,6 @@ const pageSchema = new mongoose.Schema({
 
 const Page = mongoose.model("Page", pageSchema);
 
-const t = {
-    page: {
-        modules: [
-            {
-                module: "asd",
-                fail_levels: ["asd"]
-            }
-        ]
-    }
-}
+module.exports = Page;
 
 module.exports = Page;
