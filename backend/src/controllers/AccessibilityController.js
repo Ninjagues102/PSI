@@ -81,11 +81,11 @@ class AccessibilityController {
                 await qualweb.stop();
                 const finalReport = this.buildReport(report);
                 console.log("-------------finalReport")
-                console.log(finalReport.modules)
+                console.log(finalReport.flat())
                 return {
                     pageId: page._id.toString(),
-                    reports: finalReport.modules,
-                    tests: finalReport.testes
+                    reports: finalReport[0].modules,
+                    tests: finalReport[0].tests
                 };
             } catch (err) {
                 console.error(err);
@@ -103,7 +103,7 @@ class AccessibilityController {
                 modules: this.entryModules(page),
                 tests: this.entryTests(page),
             } 
-        }).flat()
+        })
     }
 
     entryTests(page){
@@ -125,8 +125,6 @@ class AccessibilityController {
                     list: this.handleTests(module)
                 };
             })
-            .reduce((acc, module) => acc.concat([module]), [])
-            .flat()
     }
 
     handleTests(module){
