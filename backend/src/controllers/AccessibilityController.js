@@ -155,7 +155,7 @@ class AccessibilityController {
 
 }
 
-const websitePossStatus = ["Por Avaliar", "Avaliado", "Em Avaliação", "Erro na avaliação"];
+const websitePossStatus = ["Por Avaliar","Em Avaliação", "Avaliado", "Erro na avaliação"];
 const pagePossStatus = ["Por Avaliar", "Conforme", "Não conforme", "Erro na avaliação"];
 const statusLength = 4;
 

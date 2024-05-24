@@ -1,7 +1,7 @@
 export interface PageEvaluation{
     modules : [
         {
-            module:String,
+            module:string,
             tests:[
                 {
                     test_name:string,

@@ -8,9 +8,29 @@ import { TestDetailComponent } from '../test-detail/test-detail.component';
 
 export interface TableElememt2{
   position:number;
+  module: string;
+  level:string[];
   name:string;
   outcome:string;
   moreInfo: [{}]
+}
+
+export enum Level{
+  A = "A",
+  AA = "AA",
+  AAA = "AAA",
+}
+
+export enum Type{
+  ACT = "act-rules",
+  WCAG = "wcag-techniques",
+}
+
+export enum Outcome{
+  PASSED = "passed",
+  FAILED = "failed",
+  WARNING = "warning",
+  INAPPLICABLE = "inapplicable"
 }
 
 @Component({
@@ -21,12 +41,16 @@ export interface TableElememt2{
 
 export class PageDetailComponent {
   
+
+  
   displayedColumns: string[] = ['total', 'percentagem', 'type'];
   displayedColumns2: string[] = ['name', 'outcome', "moreInfo"];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   columnsToDisplay2: string[] = this.displayedColumns2.slice();
   data: TableElememt[] = [];
   data2: TableElememt2[] = [];
+  dataAux: TableElememt2[] = [];
+  dataToBePresented: TableElememt2[] = []
   page ?: Page;
   failed = 0;
   passed = 0;
@@ -34,10 +58,22 @@ export class PageDetailComponent {
   inapplicable = 0;
   total = 0;
   
-  TypeOfTests = [{}];
-  TypeOfResults = [{}];
-  ResultsLevels = [{}];
-  protected activeFilters: string[] = [];
+  TypeOfTests = [
+    {type:Type.WCAG},
+    {type:Type.ACT}];
+  TypeOfResults = [
+    {outcome:Outcome.PASSED},
+    {outcome:Outcome.FAILED},
+    {outcome:Outcome.WARNING},
+    {outcome:Outcome.INAPPLICABLE}];
+  ResultsLevels = [
+    {level:Level.A},
+    {level:Level.AA},
+    {level:Level.AAA},];
+  protected activeFilterType?: Type;
+  protected activeFilterLevel?: Level;
+  protected activeFilterOutcome?: Outcome;
+  protected filtros: string[] = [];
   testToBePresented ?: PageEvaluation["modules"];
   tests ?: PageEvaluation["modules"];
   
@@ -71,14 +107,15 @@ export class PageDetailComponent {
       {position:4, total: this.inapplicable, percentagem: (this.inapplicable/this.total) * 100, type: "Inapplicable"},
     ]
     
-    this.tests = page.evaluation.modules
-    this.testToBePresented = this.tests
+    this.testToBePresented = page.evaluation.modules
     
     let i = 1
     this.testToBePresented.forEach(m => { m.tests.forEach(ts => {
-      this.data2.push({position: i, name: ts.test_name, outcome: ts.outcome, moreInfo: ts.results}),
+      this.data2.push({position: i,module: m.module, level:ts.levels, name: ts.test_name, outcome: ts.outcome, moreInfo: ts.results}),
       i+=1
     })})
+    this.dataToBePresented = this.data2
+    this.dataAux = this.data2
   }
   
   moreInfo(results:any) {
@@ -94,5 +131,28 @@ export class PageDetailComponent {
 
   clearFilter() {}
   
-  onFilterChange() {}
+  onFilterOutcome(outcome: Outcome) {
+    this.activeFilterOutcome = outcome;
+    this.filtros.push(outcome);
+    this.filtrar();
+  }
+  onFilterType(type: Type) {
+    this.activeFilterType = type;
+    this.filtros.push(type);
+    this.filtrar();
+  }
+  onFilterLevel(level: Level) {}
+
+  filtrar(){
+    console.log(this.filtros)
+    this.dataToBePresented = this.data2
+    this.filtros.forEach(f=>{
+      if(this.activeFilterOutcome){
+        this.dataToBePresented = this.dataToBePresented.filter(data=>data.outcome==f)
+      }
+      if(this.activeFilterType){
+        this.dataToBePresented = this.dataToBePresented.filter(data=>data.module==f)
+      }
+    })
+  }
 }

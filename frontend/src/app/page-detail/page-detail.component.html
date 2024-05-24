@@ -23,53 +23,53 @@
         </mat-tab>
         <mat-tab label="Lista testes">
           <div id="menuFiltros">
-            <button [matMenuTriggerData]="{activeFilter: activeFilters}" [matMenuTriggerFor]="filtersElement" extended mat-fab>
+            <button [matMenuTriggerData]="{activeFilter1: activeFilterType}" [matMenuTriggerFor]="filtersElement1" extended mat-fab>
               <mat-icon>filter_list</mat-icon>
               <span>Tipo de teste</span>
             </button>
-            <mat-menu #filtersElement="matMenu">
-              <ng-template let-activeFilter="activeFilter" matMenuContent>
-                <button (click)="clearFilter()" *ngIf="activeFilter" mat-menu-item>
+            <mat-menu #filtersElement1="matMenu">
+              <ng-template let-activeFilter1="activeFilter1" matMenuContent>
+                <button (click)="clearFilter()" *ngIf="activeFilter1" mat-menu-item>
                   <mat-icon>filter_list_off</mat-icon>
                   <span>Remover filtros</span>
                 </button>
-                <mat-divider *ngIf="activeFilter"></mat-divider>
-                <button (click)="onFilterChange()" *ngFor="let filter of TypeOfTests" mat-menu-item>
-                  <span>{{ filter}}</span>
+                <mat-divider *ngIf="activeFilter1"></mat-divider>
+                <button (click)="onFilterType(filter.type)" *ngFor="let filter of TypeOfTests" mat-menu-item>
+                  <span>{{ filter.type }}</span>
                 </button>
               </ng-template>
             </mat-menu>
   
-            <button [matMenuTriggerData]="{activeFilter: activeFilters}" [matMenuTriggerFor]="filtersElement" extended mat-fab>
+            <button [matMenuTriggerData]="{activeFilter2: activeFilterLevel}" [matMenuTriggerFor]="filtersElement2" extended mat-fab>
               <mat-icon>filter_list</mat-icon>
               <span>Resultados</span>
             </button>
-            <mat-menu #filtersElement="matMenu">
-              <ng-template let-activeFilter="activeFilter" matMenuContent>
-                <button (click)="clearFilter()" *ngIf="activeFilter" mat-menu-item>
+            <mat-menu #filtersElement2="matMenu">
+              <ng-template let-activeFilter2="activeFilter2" matMenuContent>
+                <button (click)="clearFilter()" *ngIf="activeFilter2" mat-menu-item>
                   <mat-icon>filter_list_off</mat-icon>
                   <span>Remover filtros</span>
                 </button>
-                <mat-divider *ngIf="activeFilter"></mat-divider>
-                <button (click)="onFilterChange()" *ngFor="let filter of TypeOfResults" mat-menu-item>
-                  <span>{{ filter }}</span>
+                <mat-divider *ngIf="activeFilter2"></mat-divider>
+                <button (click)="onFilterOutcome(filter.outcome)" *ngFor="let filter of TypeOfResults" mat-menu-item>
+                  <span>{{ filter.outcome }}</span>
                 </button>
               </ng-template>
             </mat-menu>
   
-            <button [matMenuTriggerData]="{activeFilter: activeFilters}" [matMenuTriggerFor]="filtersElement" extended mat-fab>
+            <button [matMenuTriggerData]="{activeFilter3: activeFilterOutcome}" [matMenuTriggerFor]="filtersElement3" extended mat-fab>
               <mat-icon>filter_list</mat-icon>
               <span>Nível de conformidade</span>
             </button>
-            <mat-menu #filtersElement="matMenu">
-              <ng-template let-activeFilter="activeFilter" matMenuContent>
-                <button (click)="clearFilter()" *ngIf="activeFilter" mat-menu-item>
+            <mat-menu #filtersElement3="matMenu">
+              <ng-template let-activeFilter3="activeFilter3" matMenuContent>
+                <button (click)="clearFilter()" *ngIf="activeFilter3" mat-menu-item>
                   <mat-icon>filter_list_off</mat-icon>
                   <span>Remover filtros</span>
                 </button>
-                <mat-divider *ngIf="activeFilter"></mat-divider>
-                <button (click)="onFilterChange()" *ngFor="let filter of ResultsLevels" mat-menu-item>
-                  <span>{{ filter }}</span>
+                <mat-divider *ngIf="activeFilter3"></mat-divider>
+                <button (click)="onFilterLevel(level.level)" *ngFor="let level of ResultsLevels" mat-menu-item>
+                  <span>{{ level.level }}</span>
                 </button>
               </ng-template>
             </mat-menu>
@@ -77,7 +77,7 @@
 
           <div class="wrapper">
             <div class="tests-list">
-              <table mat-table [dataSource]="data2" class="mat-elevation-z8">
+              <table mat-table [dataSource]="dataToBePresented" class="mat-elevation-z8">
                 <ng-container matColumnDef="name">
                   <th mat-header-cell *matHeaderCellDef> Teste </th>
                   <td mat-cell *matCellDef="let element"> {{element.name}} </td>
