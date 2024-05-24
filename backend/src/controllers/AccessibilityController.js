@@ -25,7 +25,7 @@ class AccessibilityController {
                 .catch(err => reject(err));
 
             const pageReports = await this.getPageReports(domain, pagesToProcess);
-            console.log(pageReports[0].reports[0].tests[3].results);
+            console.log(pageReports);
             
             const now = new Date();
 
@@ -111,6 +111,9 @@ class AccessibilityController {
                 .reduce((acc, module) => acc.concat([module]), [])
                 .flat();
         }).flat();
+        /*console.log("------------------buildReport")
+        console.log(ola)
+        return ola*/
     }
 
     handleTests(module){
