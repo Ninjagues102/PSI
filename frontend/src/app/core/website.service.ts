@@ -40,8 +40,6 @@ export class WebsiteService {
   }
   
   processPages(websiteId: string, pages: PageProcessDto): BehaviorSubject<WebsiteStatus> {
-    console.log("-------------------processePages")
-    console.log(pages)
     this.httpClient.post<[ Page ]>(`${this.apiUrl}/process/${websiteId}`, pages, { headers: this.headers }).subscribe(_ =>
       this.getWebsites(),
     );
@@ -58,15 +56,15 @@ export class WebsiteService {
 
       dialogRef.afterClosed().subscribe(_ => {
         this.getWebsites();
-        window.location.reload();
+        
       });
       return;
     }
     const url = `${this.apiUrl}/${website._id}/delete`;
     this.httpClient.post<Website>(url, {headers: this.headers }).subscribe(_ =>
       this.getWebsites()
-      
     );
     window.location.reload();
+
   }
 }
