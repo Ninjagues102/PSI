@@ -1,20 +1,20 @@
 export interface PageEvaluation{
     modules : [
         {
-            module:String;
-            fail_levels:String[]
-        }
-    ],
-    testes_info?:[
-        {
-            module?: string,
-            tests?:
-            [
+            module:String,
+            tests:[
                 {
-                    verdict?: string,
-                    identificador?: string
+                    test_name:string,
+                    outcome:string,
+                    levels:string[],
+                    results:[
+                        {
+                            verdict:string,
+                            htmlCode:string[]
+                        }
+                    ]
                 }
-            ]
+            ],
         }
     ],
     percentagens:[
