@@ -37,7 +37,8 @@ class ReportsController {
             registryDate: website.registryDate,
             lastEvaluationDate: website.lastEvaluationDate.toLocaleString("pt-PT", dateOptions),
             pages: getPagesInfo(website.pages),
-            pageStats: getPageStats(website.pages)
+            pageStats: getPageStats(website.pages),
+            topErrors: getTopErrors(website.pages, 10)
         };
         return Mustache.render(this.template, reportData);
     }
@@ -96,6 +97,29 @@ function getPageStats(pages) {
         errorsAAPercent: (errorsAA / pagesFails.length) * 100,
         errorsAAAPercent: (errorsAAA / pagesFails.length) * 100
     };
+}
+
+function getTopErrors(pages, errorLimit) {
+    const errors = pages
+        .flatMap(page => page.evaluation.modules
+            .flatMap(module => module.tests
+                .flatMap(test => test.test_name)
+            )
+        );
+
+    const keyCountMap = errors.reduce((acc, item) => {
+        acc[item] = (acc[item] || 0) + 1;
+        return acc;
+    }, {});
+
+    errors.sort((a, b) => {
+        return keyCountMap[b] - keyCountMap[a];
+
+    });
+
+    return errors.map(error => {
+        return { "error": error };
+    }).slice(0, errorLimit);
 }
 
 module.exports = { ReportsController };

@@ -10,6 +10,6 @@ export interface HTMLReport {
 export interface PDFReport {
   report: {
     type: string,
-    data: Blob
+    data: []
   }
 }

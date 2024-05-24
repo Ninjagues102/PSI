@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { WebsitesComponent } from "../websites/websites.component";
 import { Page, PageStatus } from "../shared/models/page.model";
 import { PageDetailComponent } from "../page-detail/page-detail.component";
-import { PDFReport } from "../shared/models/ReportFormat";
+import { HTMLReport, PDFReport } from "../shared/models/ReportFormat";
 
 export interface TableElement {
   position: number;
@@ -129,14 +129,23 @@ export class WebsiteDetailComponent implements OnInit {
   }
 
   downloadHtml() {
-    // this.webService.getHtmlReport();
+    this.webService.getHtmlReport(this.websiteId).subscribe((htmlReport: HTMLReport) => {
+      const a = document.createElement("a");
+      a.href = `data:text/html;charset=utf-8,${encodeURIComponent(htmlReport.report)}`;
+      a.target = '_blank';
+      a.setAttribute("download", `report_${this.website?.domain}.html`)
+      a.dispatchEvent(new MouseEvent('click'));
+    })
   }
 
   downloadPdf() {
     this.webService.getPdfReport(this.websiteId).subscribe((pdfReport: PDFReport) => {
-      const url = window.URL.createObjectURL(pdfReport.report.data);
+      const pdfBlob = new Blob([new Uint8Array(pdfReport.report.data)], { type: "application/pdf" });
+
+      const url = window.URL.createObjectURL(pdfBlob);
       const a = document.createElement("a");
       a.href = url;
+      a.target = '_blank';
       a.click();
       window.URL.revokeObjectURL(url);
     });
