@@ -37,7 +37,7 @@ export class WebsiteDetailComponent implements OnInit {
   displayedColumns: string[] = ['total', 'percentagem', 'type'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   data: TableElememt[] = [];
-  
+
   constructor(
     private webService: WebsiteService,
     @Inject(MAT_DIALOG_DATA) public websiteId: string,
@@ -49,7 +49,7 @@ export class WebsiteDetailComponent implements OnInit {
     this.getWebsite()
   }
   
-  
+
   getWebsite(){
     if (!this.websiteId) return;
     this.webService.getWebsite(this.websiteId)
@@ -87,7 +87,7 @@ export class WebsiteDetailComponent implements OnInit {
                     this.aaa_error+=1;
                   }
                 });
-                
+
               }
             })
             
@@ -125,8 +125,8 @@ export class WebsiteDetailComponent implements OnInit {
         this.websitesComponent.sortData(this.websitesComponent.activeSort);
       });
     }
-    
-  removeWebsite(website:Website) {
+
+    removeWebsite(website:Website) {
       this.webService.deleteWebsite(website);
       this.websitesComponent.removeFromList(website);
   }
