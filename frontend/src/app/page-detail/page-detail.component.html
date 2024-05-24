@@ -1,111 +1,110 @@
+<mat-tab-group>
+    <mat-tab label="Testes info">
+        <table mat-table [dataSource]="data" class="mat-elevation-z8">
+            <ng-container matColumnDef="total">
+              <th mat-header-cell *matHeaderCellDef> total </th>
+              <td mat-cell *matCellDef="let element"> {{element.total}} </td>
+            </ng-container>
 
-    <mat-tab-group>
-        <mat-tab label="Testes info">
-            <table mat-table [dataSource]="data" class="mat-elevation-z8">
-                <ng-container matColumnDef="total">
-                  <th mat-header-cell *matHeaderCellDef> total </th>
-                  <td mat-cell *matCellDef="let element"> {{element.total}} </td>
-                </ng-container>
+            <ng-container matColumnDef="percentagem">
+              <th mat-header-cell *matHeaderCellDef> percentagem </th>
+              <td mat-cell *matCellDef="let element"> {{element.percentagem | number : '.2-2'}} </td>
+            </ng-container>
 
-                <ng-container matColumnDef="percentagem">
-                  <th mat-header-cell *matHeaderCellDef> percentagem </th>
-                  <td mat-cell *matCellDef="let element"> {{element.percentagem | number : '.2-2'}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="type">
-                  <th mat-header-cell *matHeaderCellDef> type </th>
-                  <td mat-cell *matCellDef="let element"> {{element.type}} </td>
-                </ng-container>
-              
-                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-                <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
-              </table>
-        </mat-tab>
-        <mat-tab label="Lista testes">
-          <div id="menuFiltros">
-            <button [matMenuTriggerData]="{activeFilter1: activeFilterType}" [matMenuTriggerFor]="filtersElement1" extended mat-fab>
-              <mat-icon>filter_list</mat-icon>
-              <span>Tipo de teste</span>
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef> type </th>
+              <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+          </table>
+    </mat-tab>
+    <mat-tab label="Lista testes">
+      <div id="menuFiltros">
+        <button [matMenuTriggerData]="{activeFilter1: activeFilterType}" [matMenuTriggerFor]="filtersElement1" extended mat-fab>
+          <mat-icon>filter_list</mat-icon>
+          <span>Tipo de teste</span>
+        </button>
+        <mat-menu #filtersElement1="matMenu">
+          <ng-template let-activeFilter1="activeFilter1" matMenuContent>
+            <button (click)="clearFilter(activeFilter1)" *ngIf="activeFilter1" mat-menu-item>
+              <mat-icon>filter_list_off</mat-icon>
+              <span>Remover filtros</span>
             </button>
-            <mat-menu #filtersElement1="matMenu">
-              <ng-template let-activeFilter1="activeFilter1" matMenuContent>
-                <button (click)="clearFilter(activeFilter1)" *ngIf="activeFilter1" mat-menu-item>
-                  <mat-icon>filter_list_off</mat-icon>
-                  <span>Remover filtros</span>
-                </button>
-                <mat-divider *ngIf="activeFilter1"></mat-divider>
-                <button (click)="onFilterType(filter.type)" *ngFor="let filter of TypeOfTests" mat-menu-item>
-                  <span>{{ filter.type }}</span>
-                </button>
-              </ng-template>
-            </mat-menu>
-  
-            <button [matMenuTriggerData]="{activeFilter2: activeFilterOutcome}" [matMenuTriggerFor]="filtersElement2" extended mat-fab>
-              <mat-icon>filter_list</mat-icon>
-              <span>Resultados</span>
+            <mat-divider *ngIf="activeFilter1"></mat-divider>
+            <button (click)="onFilterType(filter.type)" *ngFor="let filter of TypeOfTests" mat-menu-item>
+              <span>{{ filter.type }}</span>
             </button>
-            <mat-menu #filtersElement2="matMenu">
-              <ng-template let-activeFilter2="activeFilter2" matMenuContent>
-                <button (click)="clearFilter(activeFilter2)" *ngIf="activeFilter2" mat-menu-item>
-                  <mat-icon>filter_list_off</mat-icon>
-                  <span>Remover filtros</span>
-                </button>
-                <mat-divider *ngIf="activeFilter2"></mat-divider>
-                <button (click)="onFilterOutcome(filter.outcome)" *ngFor="let filter of TypeOfResults" mat-menu-item>
-                  <span>{{ filter.outcome }}</span>
-                </button>
-              </ng-template>
-            </mat-menu>
-  
-            <button [matMenuTriggerData]="{activeFilter3: activeFilterLevel}" [matMenuTriggerFor]="filtersElement3" extended mat-fab>
-              <mat-icon>filter_list</mat-icon>
-              <span>Nível de conformidade</span>
+          </ng-template>
+        </mat-menu>
+
+        <button [matMenuTriggerData]="{activeFilter2: activeFilterOutcome}" [matMenuTriggerFor]="filtersElement2" extended mat-fab>
+          <mat-icon>filter_list</mat-icon>
+          <span>Resultados</span>
+        </button>
+        <mat-menu #filtersElement2="matMenu">
+          <ng-template let-activeFilter2="activeFilter2" matMenuContent>
+            <button (click)="clearFilter(activeFilter2)" *ngIf="activeFilter2" mat-menu-item>
+              <mat-icon>filter_list_off</mat-icon>
+              <span>Remover filtros</span>
             </button>
-            <mat-menu #filtersElement3="matMenu">
-              <ng-template let-activeFilter3="activeFilter3" matMenuContent>
-                <button (click)="clearFilter(activeFilter3)" *ngIf="activeFilter3" mat-menu-item>
-                  <mat-icon>filter_list_off</mat-icon>
-                  <span>Remover filtros</span>
-                </button>
-                <mat-divider *ngIf="activeFilter3"></mat-divider>
-                <button (click)="onFilterLevel(level.level)" *ngFor="let level of ResultsLevels" mat-menu-item>
-                  <span>{{ level.level }}</span>
-                </button>
-              </ng-template>
-            </mat-menu>
-          </div>
+            <mat-divider *ngIf="activeFilter2"></mat-divider>
+            <button (click)="onFilterOutcome(filter.outcome)" *ngFor="let filter of TypeOfResults" mat-menu-item>
+              <span>{{ filter.outcome }}</span>
+            </button>
+          </ng-template>
+        </mat-menu>
 
-          <div class="wrapper">
-            <div class="tests-list">
-              <table mat-table [dataSource]="dataToBePresented" class="mat-elevation-z8">
-                <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef> Teste </th>
-                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                </ng-container>
+        <button [matMenuTriggerData]="{activeFilter3: activeFilterLevel}" [matMenuTriggerFor]="filtersElement3" extended mat-fab>
+          <mat-icon>filter_list</mat-icon>
+          <span>Nível de conformidade</span>
+        </button>
+        <mat-menu #filtersElement3="matMenu">
+          <ng-template let-activeFilter3="activeFilter3" matMenuContent>
+            <button (click)="clearFilter(activeFilter3)" *ngIf="activeFilter3" mat-menu-item>
+              <mat-icon>filter_list_off</mat-icon>
+              <span>Remover filtros</span>
+            </button>
+            <mat-divider *ngIf="activeFilter3"></mat-divider>
+            <button (click)="onFilterLevel(level.level)" *ngFor="let level of ResultsLevels" mat-menu-item>
+              <span>{{ level.level }}</span>
+            </button>
+          </ng-template>
+        </mat-menu>
+      </div>
 
-                <ng-container matColumnDef="outcome">
-                  <th mat-header-cell *matHeaderCellDef> Resultados </th>
-                  <td mat-cell *matCellDef="let element"> {{element.outcome}} </td>
-                </ng-container>
+      <div class="wrapper">
+        <div class="tests-list">
+          <table mat-table [dataSource]="dataToBePresented" class="mat-elevation-z8">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Teste </th>
+              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
 
-                <ng-container matColumnDef="moreInfo">
-                  <th mat-header-cell *matHeaderCellDef> Mais Informação </th>
-                  <td mat-cell *matCellDef="let element"> 
-                    <button mat-raised-button [disabled] = "element.moreInfo.length === 0" (click)="moreInfo(element.moreInfo)" color="primary">
-                        More
-                    </button> 
-                  </td>
-                </ng-container>
-              
-                <tr mat-header-row *matHeaderRowDef="columnsToDisplay2"></tr>
-                <tr mat-row *matRowDef="let row; columns: columnsToDisplay2;"></tr>
-              </table>
-            </div>
-          </div>
+            <ng-container matColumnDef="outcome">
+              <th mat-header-cell *matHeaderCellDef> Resultados </th>
+              <td mat-cell *matCellDef="let element"> {{element.outcome}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="moreInfo">
+              <th mat-header-cell *matHeaderCellDef> Mais Informação </th>
+              <td mat-cell *matCellDef="let element"> 
+                <button mat-raised-button [disabled] = "element.moreInfo.length === 0" (click)="moreInfo(element.moreInfo)" color="primary">
+                    More
+                </button> 
+              </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay2"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsToDisplay2;"></tr>
+          </table>
+        </div>
+      </div>
 
 
-        </mat-tab>
-    </mat-tab-group>
-    <mat-dialog-actions align="end">
-        <button color="primary" mat-dialog-close mat-raised-button>Fechar</button>
-    </mat-dialog-actions>
+    </mat-tab>
+</mat-tab-group>
+<mat-dialog-actions align="end">
+    <button color="primary" mat-dialog-close mat-raised-button>Fechar</button>
+</mat-dialog-actions>
