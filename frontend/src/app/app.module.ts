@@ -27,6 +27,7 @@ import { WebsiteService } from "./core/website.service";
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { PageDetailComponent } from './page-detail/page-detail.component';
+import { TestDetailComponent } from './test-detail/test-detail.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { PageDetailComponent } from './page-detail/page-detail.component';
     WebsiteDetailComponent,
     DeleteWebsiteComponent,
     PageDetailComponent,
+    TestDetailComponent,
   ],
   imports: [
     BrowserModule,
