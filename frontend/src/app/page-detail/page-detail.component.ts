@@ -136,27 +136,41 @@ export class PageDetailComponent {
   }
   
   onFilterOutcome(outcome: Outcome) {
-    this.clearFilter(this.activeFilterOutcome)
+    this.clearFilter(this.activeFilterOutcome);
     this.activeFilterOutcome = outcome;
     this.filtros.push(outcome);
     this.filtrar();
   }
   onFilterType(type: Type) {
-    this.clearFilter(this.activeFilterType)
+    this.clearFilter(this.activeFilterType);
     this.activeFilterType = type;
     this.filtros.push(type);
     this.filtrar();
   }
-  onFilterLevel(level: Level) {}
+  onFilterLevel(level: Level) {
+    this.clearFilter(this.activeFilterLevel)
+    this.activeFilterLevel=level;
+    this.filtros.push(level);
+    this.filtrar();
+  }
 
   filtrar(){
     this.filtros.forEach(f=>{
       if(this.activeFilterOutcome == f){
-        this.dataToBePresented = this.data2.filter(data=>data.outcome==f) 
+        this.dataAux = this.dataAux.filter(data=>data.outcome==f)
+        this.dataToBePresented = this.dataAux 
       }
       if(this.activeFilterType == f){
-        this.dataToBePresented = this.data2.filter(data=>data.module==f)
+        
+        this.dataAux = this.dataAux.filter(data=>data.module==f)
+        this.dataToBePresented = this.dataAux
+      }
+      if(this.activeFilterLevel == f){
+        
+        this.dataAux = this.dataAux.filter(data=>data.level.includes(f))
+        this.dataToBePresented = this.dataAux 
       }
     })
+    this.dataAux = this.data2
   }
 }
