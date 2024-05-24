@@ -27,7 +27,6 @@ const pageEvaluationSchema = new mongoose.Schema({
             inapplicable: { type: Number, required: true, default: 0 },
         }
     ]
-    
 });
 
 const PageEvaluation = mongoose.model("PageEvaluation", pageEvaluationSchema);

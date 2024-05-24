@@ -54,6 +54,12 @@
     </mat-tab>
   </mat-tab-group>
   <mat-dialog-actions align="end">
+    <button (click)="downloadHtml()" mat-fab color="accent" [disabled]="website.status !== WebsiteStatus.EVALUATED">
+      <mat-icon>html</mat-icon>
+    </button>
+    <button (click)="downloadPdf()" mat-fab color="accent" [disabled]="website.status !== WebsiteStatus.EVALUATED">
+      <mat-icon>picture_as_pdf</mat-icon>
+    </button>
     <button (click) ="removeWebsite(website)" color="primary" mat-dialog-close mat-raised-button>Eliminar</button>
     <button color="primary" mat-dialog-close mat-raised-button>Fechar</button>
   </mat-dialog-actions>

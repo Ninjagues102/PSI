@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { WebsitesComponent } from "../websites/websites.component";
 import { Page, PageStatus } from "../shared/models/page.model";
 import { PageDetailComponent } from "../page-detail/page-detail.component";
+import { PDFReport } from "../shared/models/ReportFormat";
 
 export interface TableElement {
   position: number;
@@ -117,22 +118,6 @@ export class WebsiteDetailComponent implements OnInit {
     this.testsToPresent = Array.from(this.tests_errors.keys())
   }
 
-
-
-  getWebsites(): void {
-    this.webService.getWebsites()
-      .subscribe(websites => {
-        this.websitesComponent.websites = websites;
-        this.websitesComponent.websitesToBePresented = websites;
-        this.websitesComponent.sortData(this.websitesComponent.activeSort);
-      });
-    }
-
-    removeWebsite(website:Website) {
-      this.webService.deleteWebsite(website);
-      this.websitesComponent.removeFromList(website);
-  }
-
   evaluationDetails(page: Page) {
     const dialogRef = this.dialog.open(PageDetailComponent, {
       height: "65%",
@@ -141,5 +126,19 @@ export class WebsiteDetailComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_ => {
     })
+  }
+
+  downloadHtml() {
+    // this.webService.getHtmlReport();
+  }
+
+  downloadPdf() {
+    this.webService.getPdfReport(this.websiteId).subscribe((pdfReport: PDFReport) => {
+      const url = window.URL.createObjectURL(pdfReport.report.data);
+      const a = document.createElement("a");
+      a.href = url;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 }
