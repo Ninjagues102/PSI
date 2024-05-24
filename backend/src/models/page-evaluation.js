@@ -13,7 +13,7 @@ const pageEvaluationSchema = new mongoose.Schema({
             tests:[
                 {
                     verdict: { type: String, required: false },
-                    identificador: { type: String, required: false }
+                    identificador: [{ type: String, required: false }]
                 }
             ]
         }
