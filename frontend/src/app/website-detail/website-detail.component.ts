@@ -71,7 +71,7 @@ export class WebsiteDetailComponent implements OnInit {
         page.evaluation.modules.forEach(m => {
           var ola = this.module_errors.get(m.module)||0;
           this.module_errors.set(m.module,ola+1)
-          m.fail_levels.forEach(level => {
+          m.tests[0].levels.forEach(level => {
             if(level=="A" && !has_a){
               has_a=true;
               this.a_error+=1;

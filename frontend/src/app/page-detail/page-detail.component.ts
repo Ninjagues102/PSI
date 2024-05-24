@@ -53,7 +53,7 @@ export class PageDetailComponent {
     this.inapplicable = page.evaluation.percentagens[0].inapplicable
     this.total = this.failed + this.passed + this.warning + this.inapplicable
 
-    this.tests = page.evaluation.testes_info[0].tests[0]
+    this.tests = page.evaluation.modules[0].tests
     this.testToBePresented = this.tests
 
     this.data = [
