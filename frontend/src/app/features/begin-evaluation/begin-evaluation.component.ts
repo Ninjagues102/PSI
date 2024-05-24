@@ -21,6 +21,6 @@ export class BeginEvaluationComponent implements OnInit {
   }
 
   modelChange(selectedOptions: any) {
-    this.pagesToEvaluate = selectedOptions;
+    this.pagesToEvaluate = selectedOptions
   }
 }

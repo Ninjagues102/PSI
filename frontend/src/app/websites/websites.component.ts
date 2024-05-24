@@ -4,6 +4,7 @@ import { WebsiteService } from "../core/website.service";
 import { MatDialog } from "@angular/material/dialog";
 import { WebsiteDetailComponent } from "../website-detail/website-detail.component";
 import { BeginEvaluationComponent } from "../features/begin-evaluation/begin-evaluation.component";
+import { PageProcessDto } from "../shared/models/page.model";
 
 export enum SortingKey {
   REGISTRY_DATE = "registryDate",
@@ -68,12 +69,26 @@ export class WebsitesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(pages => {
       if (!pages || !websiteId) return;
-      this.webService.processPages(websiteId, { pages: pages }).subscribe(status => {
+      var pagesRetrived= this.retrivePages({pages:pages})
+      console.log(pagesRetrived)
+      this.webService.processPages(websiteId, {pages:pagesRetrived}).subscribe(status => {
         const website = this.websites.find(website => website._id === websiteId);
         if (!website) return;
         website.status = status;
       });
     })
+  }
+
+  retrivePages(pages: PageProcessDto): any{
+    return pages.pages.map(element => {
+      return{
+        _id:element._id,
+        relativePath:element.relativePath,
+        status:element.status,
+        registryDate:element.registryDate,
+        lastEvaluationDate:element.lastEvaluationDate
+      }
+    });
   }
 
   getWebsites(): void {
