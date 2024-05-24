@@ -19,9 +19,12 @@ export class WebsiteService {
   });
 
 
+
+  constructor(private httpClient: HttpClient, private dialog: MatDialog) {
   constructor(private httpClient: HttpClient, private dialog: MatDialog) {
     this.apiUrl = `${environment.backend_url}/website`;
   }
+
 
   getWebsites(): Observable<Website[]> {
     this.httpClient.get<Website[]>(this.apiUrl, { headers: this.headers }).subscribe(websites => this.websites.next(websites));
@@ -46,14 +49,15 @@ export class WebsiteService {
     return new BehaviorSubject<WebsiteStatus>(WebsiteStatus.IN_EVALUATION);
   }
 
+
   deleteWebsite(website : Website) {
-    
     if(website.pages.length > 0){
       const dialogRef = this.dialog.open(DeleteWebsiteComponent, {
         height: "28%",
         width: "28%",
         data: website,
       });
+
 
       dialogRef.afterClosed().subscribe(_ => {
         this.getWebsites();

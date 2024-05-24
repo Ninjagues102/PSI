@@ -2,12 +2,11 @@ const { QualWeb } = require("@qualweb/core");
 const Website = require("../models/website");
 
 const plugins = {
-    adBlock: false,
-    stealth: true
+    adBlock: false
 };
 
 const clusterOptions = {
-    maxConcurrency: 4,
+    maxConcurrency: 1,
     timeout: 60 * 1000,
     monitor: true
 };
