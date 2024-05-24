@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { Website, WebsiteStatus } from "../shared/models/website.model";
+import { Website } from "../shared/models/website.model";
 import { WebsiteService } from "../core/website.service";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { WebsitesComponent } from "../websites/websites.component";
@@ -69,20 +69,20 @@ export class WebsiteDetailComponent implements OnInit {
       else{
         this.error+=1;
         page.evaluation.modules.forEach(m => {
-          var ola = this.module_errors.get(m.module)||0;
-          this.module_errors.set(m.module,ola+1)
-          m.fail_levels.forEach(level => {
-            if(level=="A" && !has_a){
-              has_a=true;
-              this.a_error+=1;
-            }else if(level=="AA" && !has_aa){
-              has_aa=true;
-              this.aa_error+=1;
-            }else if(level=="AAA" && !has_aaa){
-              has_aaa=true;
-              this.aaa_error+=1;
-            }
-          });
+          m.tests.forEach(
+            t => t.levels.forEach(level => {
+              if(level=="A" && !has_a){
+                has_a=true;
+                this.a_error+=1;
+              }else if(level=="AA" && !has_aa){
+                has_aa=true;
+                this.aa_error+=1;
+              }else if(level=="AAA" && !has_aaa){
+                has_aaa=true;
+                this.aaa_error+=1;
+              }
+            }))
+
         });
       }
     });

@@ -40,6 +40,8 @@ export class WebsiteService {
   }
   
   processPages(websiteId: string, pages: PageProcessDto): BehaviorSubject<WebsiteStatus> {
+    console.log("-------------------processePages")
+    console.log(pages)
     this.httpClient.post<[ Page ]>(`${this.apiUrl}/process/${websiteId}`, pages, { headers: this.headers }).subscribe(_ =>
       this.getWebsites(),
     );
