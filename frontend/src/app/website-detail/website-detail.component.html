@@ -26,6 +26,9 @@
               <div class="entry">
                 <h4>Última avaliação: </h4><span>{{ (page.lastEvaluationDate | date:"short") || "N/A" }}</span><br>
               </div>
+              <button [disabled] = "!page.lastEvaluationDate" (click)="evaluationDetails(page)" color="primary" mat-raised-button>
+                Detalhes Última Avaliação
+              </button>
             </mat-expansion-panel>
           </mat-accordion>
           <h3 *ngIf="website.pages.length === 0">Nenhuma página associada a este website</h3>
@@ -42,8 +45,12 @@
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
       </table>
-      <h3 *ngIf="website.status === WebsiteStatus.EVALUATION_ERROR" mat-dialog-title> Erro na avaliação </h3>
-      <h3 *ngIf="website.status !== WebsiteStatus.EVALUATED" mat-dialog-title> Avaliação não foi iniciada </h3>
+      <h3 mat-dialog-title *ngIf="website.status === WebsiteStatus.EVALUATED"> Top 10 lista de erros comuns das páginas:</h3>
+      <mat-list *ngIf="website.status === WebsiteStatus.EVALUATED">
+        <mat-list-item *ngFor="let e of testsToPresent">{{e}}</mat-list-item>
+      </mat-list>
+      <h3 mat-dialog-title *ngIf="website.status === WebsiteStatus.EVALUATION_ERROR"> Erro na avaliação </h3>
+      <h3 mat-dialog-title *ngIf="website.status !== WebsiteStatus.EVALUATED"> Avaliação não foi iniciada </h3>
     </mat-tab>
   </mat-tab-group>
   <mat-dialog-actions align="end">

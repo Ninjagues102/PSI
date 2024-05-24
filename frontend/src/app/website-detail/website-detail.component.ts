@@ -1,9 +1,10 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { Website, WebsiteStatus } from "../shared/models/website.model";
 import { WebsiteService } from "../core/website.service";
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { WebsitesComponent } from "../websites/websites.component";
-import { PageStatus } from "../shared/models/page.model";
+import { Page, PageStatus } from "../shared/models/page.model";
+import { PageDetailComponent } from "../page-detail/page-detail.component";
 
 export interface TableElement {
   position: number;
@@ -30,6 +31,8 @@ export class WebsiteDetailComponent implements OnInit {
   per_aaa = 0;
   per_error = 0;
   per_no_error = 0;
+  tests_errors = new Map<string, number>();
+  testsToPresent: string[] = [];
   displayedColumns: string[] = ['total', 'percentagem', 'type'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   data: TableElement[] = [];
@@ -37,7 +40,8 @@ export class WebsiteDetailComponent implements OnInit {
   constructor(
     private webService: WebsiteService,
     @Inject(MAT_DIALOG_DATA) public websiteId: string,
-    private websitesComponent: WebsitesComponent
+    private websitesComponent: WebsitesComponent,
+    private dialog: MatDialog
   ){}
 
   async ngOnInit(): Promise<void> {
@@ -71,18 +75,26 @@ export class WebsiteDetailComponent implements OnInit {
       else{
         this.error += 1;
         page.evaluation.modules.forEach(m => {
-          m.fail_levels.forEach(level => {
-            if (level == "A" && !has_a) {
-              has_a=true;
-              this.a_error += 1;
-            } else if (level == "AA" && !has_aa) {
-              has_aa=true;
-              this.aa_error += 1;
-            } else if (level == "AAA" && !has_aaa) {
-              has_aaa=true;
-              this.aaa_error += 1;
-            }
-          });
+          m.tests.forEach(
+            t => {
+              if(t.outcome=="failed"){
+                var contagem = this.tests_errors.get(t.test_name)||0;
+                this.tests_errors.set(t.test_name,contagem+1)
+                t.levels.forEach(level => {
+                if(level=="A" && !has_a){
+                  has_a=true;
+                    this.a_error+=1;
+                  }else if(level=="AA" && !has_aa){
+                    has_aa=true;
+                    this.aa_error+=1;
+                  }else if(level=="AAA" && !has_aaa){
+                    has_aaa=true;
+                    this.aaa_error+=1;
+                  }
+                });
+
+              }
+            })
         });
       }
     });
@@ -98,5 +110,36 @@ export class WebsiteDetailComponent implements OnInit {
       {position:4, total: this.aa_error, percentagem: this.per_aa, type: "AA"},
       {position:5, total: this.aaa_error, percentagem: this.per_aaa, type: "AAA"},
     ]
+    let sortedArray = Array.from(this.tests_errors);
+    sortedArray.sort((a, b) => b[1] - a[1]);
+    sortedArray = sortedArray.slice(0, 10);
+    this.tests_errors = new Map(sortedArray);
+    this.testsToPresent = Array.from(this.tests_errors.keys())
+  }
+
+
+
+  getWebsites(): void {
+    this.webService.getWebsites()
+      .subscribe(websites => {
+        this.websitesComponent.websites = websites;
+        this.websitesComponent.websitesToBePresented = websites;
+        this.websitesComponent.sortData(this.websitesComponent.activeSort);
+      });
+    }
+
+    removeWebsite(website:Website) {
+      this.webService.deleteWebsite(website);
+      this.websitesComponent.removeFromList(website);
+  }
+
+  evaluationDetails(page: Page) {
+    const dialogRef = this.dialog.open(PageDetailComponent, {
+      height: "65%",
+      width: "100%",
+      data: [page._id, this.website],
+    });
+    dialogRef.afterClosed().subscribe(_ => {
+    })
   }
 }

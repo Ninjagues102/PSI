@@ -32,13 +32,13 @@ export class WebsiteService {
     const url = `${this.apiUrl}/${id}`;
     return this.httpClient.get<Website>(url, { headers: this.headers });
   }
-
+  
   addWebsite(website: Website): void {
     this.httpClient.post<Website>(this.apiUrl, website, { headers: this.headers }).subscribe(_ =>
       this.getWebsites(),
     );
   }
-
+  
   processPages(websiteId: string, pages: PageProcessDto): BehaviorSubject<WebsiteStatus> {
     this.httpClient.post<[ Page ]>(`${this.apiUrl}/process/${websiteId}`, pages, { headers: this.headers }).subscribe(_ =>
       this.getWebsites(),
@@ -56,15 +56,15 @@ export class WebsiteService {
 
       dialogRef.afterClosed().subscribe(_ => {
         this.getWebsites();
-        window.location.reload();
+        
       });
       return;
     }
     const url = `${this.apiUrl}/${website._id}/delete`;
     this.httpClient.post<Website>(url, {headers: this.headers }).subscribe(_ =>
       this.getWebsites()
-      
     );
     window.location.reload();
+
   }
 }

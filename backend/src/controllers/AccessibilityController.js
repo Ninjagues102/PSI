@@ -25,7 +25,7 @@ class AccessibilityController {
                 .catch(err => reject(err));
 
             const pageReports = await this.getPageReports(domain, pagesToProcess);
-
+            
             const now = new Date();
 
             Website.findById(websiteId)
@@ -46,7 +46,10 @@ class AccessibilityController {
                             pageToUpdate.status = getStatus(1);
                         }
 
-                        pageToUpdate.evaluation = { modules: pageReport.reports };
+                        pageToUpdate.evaluation = { 
+                            modules: pageReport.reports,
+                            percentagens: pageReport.per
+                         };
                     });
 
                     website.pages = pages;
@@ -77,9 +80,12 @@ class AccessibilityController {
                 const report = await qualweb.evaluate({ url: domain + page.relativePath });
                 await qualweb.stop();
                 const finalReport = this.buildReport(report);
+                const finalPer = this.buildPer(report);
+
                 return {
                     pageId: page._id.toString(),
-                    reports: finalReport
+                    reports: finalReport,
+                    per: finalPer
                 };
             } catch (err) {
                 console.error(err);
@@ -98,7 +104,7 @@ class AccessibilityController {
                 .map(([moduleName, module]) => {
                     return {
                         module: moduleName,
-                        fail_levels: this.handleModule(module)
+                        tests: this.handleTests(module)
                     };
                 })
                 .reduce((acc, module) => acc.concat([module]), [])
@@ -106,18 +112,47 @@ class AccessibilityController {
         }).flat();
     }
 
-    handleModule(module) {
+    handleTests(module){
         return Object.values(module["assertions"])
-            .map(assertion => assertion["metadata"])
-            .filter(metadata => metadata["outcome"] === "failed")
-            .map(metadata => {
-                return metadata["success-criteria"].map(criteria => criteria["level"]);
-            })
-            .flat();
+            .map(assertion => {
+                var conformidade = this.removeDups(assertion["metadata"]["success-criteria"].map(criteria => criteria["level"]) )
+                return{
+                    test_name: assertion["name"],
+                    outcome: assertion["metadata"]["outcome"],
+                    levels: conformidade,
+                    results: this.handleResults(assertion) 
+                }
+            }).flat();
     }
+    
+    removeDups(data){
+        return data.filter((value,index)=>data.indexOf(value)===index);
+    }
+    
+    handleResults(assertion) {
+        return  assertion["results"].map(result=>{
+            return {
+                verdict: result["verdict"],
+                htmlCode: result["elements"].map(element=>element["htmlCode"])
+            }
+        })
+        
+    }
+
+    buildPer(report) {
+        return Object.entries(report).map(([_, page]) => {
+            return{
+                passed: Object.entries(page["metadata"])[0][1],
+                warning: Object.entries(page["metadata"])[1][1],
+                failed: Object.entries(page["metadata"])[2][1],
+                inapplicable: Object.entries(page["metadata"])[3][1]
+            }
+        }).flat()
+    }
+
 }
 
-const websitePossStatus = ["Por Avaliar", "Em Avaliação", "Avaliado", "Erro na avaliação"];
+const websitePossStatus = ["Por Avaliar", "Avaliado", "Em Avaliação", "Erro na avaliação"];
 const pagePossStatus = ["Por Avaliar", "Conforme", "Não conforme", "Erro na avaliação"];
 const statusLength = 4;
 

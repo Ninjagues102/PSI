@@ -73,6 +73,17 @@ router.get("/:id", (req, res) => {
         });
 });
 
+router.get("/page/:id", (req, res) => {
+    Page.findById(req.params.id)
+        .then(page => {
+            res.json(page);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.sendStatus(500);
+        });
+});
+
 router.get("/report/:format/:id", (req, res) => {
 
 });

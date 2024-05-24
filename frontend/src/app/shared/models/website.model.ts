@@ -16,7 +16,7 @@ export enum Protocol {
 
 export enum WebsiteStatus {
   REGISTERED = "Por Avaliar",
-  IN_EVALUATION = "Em avaliação",
+  IN_EVALUATION = "Em Avaliação",
   EVALUATED = "Avaliado",
   EVALUATION_ERROR = "Erro na avaliação"
 }
