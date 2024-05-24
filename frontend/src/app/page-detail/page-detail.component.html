@@ -77,7 +77,29 @@
 
           <div class="wrapper">
             <div class="tests-list">
-              <span *ngFor="let tests of testToBePresented" appearance="raised"></span>
+              <table mat-table [dataSource]="data2" class="mat-elevation-z8">
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef> Teste </th>
+                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="outcome">
+                  <th mat-header-cell *matHeaderCellDef> Resultados </th>
+                  <td mat-cell *matCellDef="let element"> {{element.outcome}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="moreInfo">
+                  <th mat-header-cell *matHeaderCellDef> Mais Informação </th>
+                  <td mat-cell *matCellDef="let element"> 
+                    <button mat-raised-button [disabled] = "element.moreInfo.length === 0" (click)="moreInfo(element.moreInfo)" color="primary">
+                        More
+                    </button> 
+                  </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay2"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnsToDisplay2;"></tr>
+              </table>
             </div>
           </div>
 
@@ -86,4 +108,4 @@
     </mat-tab-group>
     <mat-dialog-actions align="end">
         <button color="primary" mat-dialog-close mat-raised-button>Fechar</button>
-      </mat-dialog-actions>
+    </mat-dialog-actions>
