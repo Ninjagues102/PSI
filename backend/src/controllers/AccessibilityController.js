@@ -25,7 +25,6 @@ class AccessibilityController {
                 .catch(err => reject(err));
 
             const pageReports = await this.getPageReports(domain, pagesToProcess);
-            console.log(pageReports[0].reports[0].tests[3].results);
             
             const now = new Date();
 
