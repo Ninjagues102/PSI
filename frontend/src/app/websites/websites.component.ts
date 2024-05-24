@@ -70,7 +70,6 @@ export class WebsitesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(pages => {
       if (!pages || !websiteId) return;
       var pagesRetrived= this.retrivePages({pages:pages})
-      console.log(pagesRetrived)
       this.webService.processPages(websiteId, {pages:pagesRetrived}).subscribe(status => {
         const website = this.websites.find(website => website._id === websiteId);
         if (!website) return;

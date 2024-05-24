@@ -32,7 +32,8 @@ export class WebsiteDetailComponent implements OnInit {
   per_aaa = 0;
   per_error = 0;
   per_no_error = 0;
-  module_errors = new Map<String, number>();
+  tests_errors = new Map<string, number>();
+  testsToPresent: string[] = [];
   displayedColumns: string[] = ['total', 'percentagem', 'type'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   data: TableElememt[] = [];
@@ -69,21 +70,28 @@ export class WebsiteDetailComponent implements OnInit {
       else{
         this.error+=1;
         page.evaluation.modules.forEach(m => {
-          var ola = this.module_errors.get(m.module)||0;
-          this.module_errors.set(m.module,ola+1)
           m.tests.forEach(
-            t => t.levels.forEach(level => {
-              if(level=="A" && !has_a){
-                has_a=true;
-                this.a_error+=1;
-              }else if(level=="AA" && !has_aa){
-                has_aa=true;
-                this.aa_error+=1;
-              }else if(level=="AAA" && !has_aaa){
-                has_aaa=true;
-                this.aaa_error+=1;
+            t => {
+              if(t.outcome=="failed"){
+                var contagem = this.tests_errors.get(t.test_name)||0;
+                this.tests_errors.set(t.test_name,contagem+1)
+                t.levels.forEach(level => {
+                if(level=="A" && !has_a){
+                  has_a=true;
+                    this.a_error+=1;
+                  }else if(level=="AA" && !has_aa){
+                    has_aa=true;
+                    this.aa_error+=1;
+                  }else if(level=="AAA" && !has_aaa){
+                    has_aaa=true;
+                    this.aaa_error+=1;
+                  }
+                });
+                
               }
-            }))
+            })
+            
+            
           
         });
       }
@@ -100,6 +108,11 @@ export class WebsiteDetailComponent implements OnInit {
       {position:4, total: this.aa_error, percentagem: this.per_aa, type: "AA"},
       {position:5, total: this.aaa_error, percentagem: this.per_aaa, type: "AAA"},
     ]
+    let sortedArray = Array.from(this.tests_errors);
+    sortedArray.sort((a, b) => b[1] - a[1]);
+    sortedArray = sortedArray.slice(0, 10);
+    this.tests_errors = new Map(sortedArray);
+    this.testsToPresent = Array.from(this.tests_errors.keys())
   }
 
 
