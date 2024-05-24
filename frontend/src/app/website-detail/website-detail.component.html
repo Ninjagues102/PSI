@@ -36,6 +36,7 @@
       </div>
     </mat-tab>
     <mat-tab label="Avaliação info">
+      <h3 mat-dialog-title *ngIf="website.status === 'Avaliado'"> Tabela de percentagens de erros das páginas:</h3>
       <table *ngIf="website.status === 'Avaliado'" mat-table [dataSource]="data" class="mat-elevation-z8">
         <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
           <th mat-header-cell *matHeaderCellDef> {{column}} </th>
@@ -45,6 +46,10 @@
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
       </table>
+      <h3 mat-dialog-title *ngIf="website.status === 'Avaliado'"> Top 10 lista de erros comuns das páginas:</h3>
+      <mat-list *ngIf="website.status === 'Avaliado'">
+        <mat-list-item *ngFor="let e of testsToPresent">{{e}}</mat-list-item>
+      </mat-list>
       <h3 mat-dialog-title *ngIf="website.status === 'Erro na avaliação'"> Erro na avaliação </h3>
       <h3 mat-dialog-title *ngIf="website.status !== 'Avaliado'"> Avaliação não foi iniciada </h3>
     </mat-tab>
