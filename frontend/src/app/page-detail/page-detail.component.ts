@@ -40,9 +40,7 @@ export enum Outcome{
 })
 
 export class PageDetailComponent {
-  
 
-  
   displayedColumns: string[] = ['total', 'percentagem', 'type'];
   displayedColumns2: string[] = ['name', 'outcome', "moreInfo"];
   columnsToDisplay: string[] = this.displayedColumns.slice();
@@ -57,7 +55,7 @@ export class PageDetailComponent {
   warning = 0;
   inapplicable = 0;
   total = 0;
-  
+
   TypeOfTests = [
     {type:Type.WCAG},
     {type:Type.ACT}];
@@ -76,12 +74,12 @@ export class PageDetailComponent {
   protected filtros: string[] = [];
   testToBePresented ?: PageEvaluation["modules"];
   tests ?: PageEvaluation["modules"];
-  
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public info: [string, Website],
     private dialog: MatDialog
   ){}
-  
+
   async ngOnInit(): Promise<void> {
     this.getPage()
   }
@@ -92,23 +90,23 @@ export class PageDetailComponent {
                   page._id === this.info[0],
                   this.getData(page)))
   }
-  
+
   getData(page: Page) {
     this.failed = page.evaluation.percentagens[0].failed
     this.passed = page.evaluation.percentagens[0].passed
     this.warning = page.evaluation.percentagens[0].warning
     this.inapplicable = page.evaluation.percentagens[0].inapplicable
     this.total = this.failed + this.passed + this.warning + this.inapplicable
-    
+
     this.data = [
       {position:1, total: this.passed, percentagem: (this.passed/this.total) * 100, type: "Passed"},
       {position:2, total: this.failed, percentagem: (this.failed/this.total) * 100, type: "Failed"},
       {position:3, total: this.warning, percentagem: (this.warning/this.total) * 100, type: "Warning"},
       {position:4, total: this.inapplicable, percentagem: (this.inapplicable/this.total) * 100, type: "Inapplicable"},
     ]
-    
+
     this.testToBePresented = page.evaluation.modules
-    
+
     let i = 1
     this.testToBePresented.forEach(m => { m.tests.forEach(ts => {
       this.data2.push({position: i,module: m.module, level:ts.levels, name: ts.test_name, outcome: ts.outcome, moreInfo: ts.results}),
@@ -117,7 +115,7 @@ export class PageDetailComponent {
     this.dataToBePresented = this.data2
     this.dataAux = this.data2
   }
-  
+
   moreInfo(results:any) {
     const dialogRef = this.dialog.open(TestDetailComponent, {
       height: "65%",
@@ -134,7 +132,7 @@ export class PageDetailComponent {
     this.filtros = this.filtros.filter(f => f !== filter)
     this.filtrar()
   }
-  
+
   onFilterOutcome(outcome: Outcome) {
     this.clearFilter(this.activeFilterOutcome);
     this.activeFilterOutcome = outcome;
@@ -158,17 +156,17 @@ export class PageDetailComponent {
     this.filtros.forEach(f=>{
       if(this.activeFilterOutcome == f){
         this.dataAux = this.dataAux.filter(data=>data.outcome==f)
-        this.dataToBePresented = this.dataAux 
+        this.dataToBePresented = this.dataAux
       }
       if(this.activeFilterType == f){
-        
+
         this.dataAux = this.dataAux.filter(data=>data.module==f)
         this.dataToBePresented = this.dataAux
       }
       if(this.activeFilterLevel == f){
-        
+
         this.dataAux = this.dataAux.filter(data=>data.level.includes(f))
-        this.dataToBePresented = this.dataAux 
+        this.dataToBePresented = this.dataAux
       }
     })
     this.dataAux = this.data2

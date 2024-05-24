@@ -6,6 +6,7 @@ import { environment } from "../../environments/environment";
 import { Page, PageProcessDto } from "../shared/models/page.model";
 import { DeleteWebsiteComponent } from "../features/delete-website/delete-website.component";
 import { MatDialog } from "@angular/material/dialog";
+import { HTMLReport, PDFReport, ReportFormat } from "../shared/models/ReportFormat";
 
 @Injectable({
   providedIn: "root",
@@ -23,7 +24,6 @@ export class WebsiteService {
     this.apiUrl = `${environment.backend_url}/website`;
   }
 
-
   getWebsites(): Observable<Website[]> {
     this.httpClient.get<Website[]>(this.apiUrl, { headers: this.headers }).subscribe(websites => this.websites.next(websites));
     return this.websites;
@@ -33,20 +33,19 @@ export class WebsiteService {
     const url = `${this.apiUrl}/${id}`;
     return this.httpClient.get<Website>(url, { headers: this.headers });
   }
-  
+
   addWebsite(website: Website): void {
     this.httpClient.post<Website>(this.apiUrl, website, { headers: this.headers }).subscribe(_ =>
       this.getWebsites(),
     );
   }
-  
+
   processPages(websiteId: string, pages: PageProcessDto): BehaviorSubject<WebsiteStatus> {
     this.httpClient.post<[ Page ]>(`${this.apiUrl}/process/${websiteId}`, pages, { headers: this.headers }).subscribe(_ =>
       this.getWebsites(),
     );
     return new BehaviorSubject<WebsiteStatus>(WebsiteStatus.IN_EVALUATION);
   }
-
 
   deleteWebsite(website : Website) {
     if(website.pages.length > 0){
@@ -56,10 +55,9 @@ export class WebsiteService {
         data: website,
       });
 
-
       dialogRef.afterClosed().subscribe(_ => {
         this.getWebsites();
-        
+
       });
       return;
     }
@@ -69,5 +67,15 @@ export class WebsiteService {
     );
     window.location.reload();
 
+  }
+
+  getPdfReport(websiteId: string): Observable<PDFReport> {
+    const url = `${this.apiUrl}/report/${ReportFormat.PDF}/${websiteId}`;
+    return this.httpClient.get<PDFReport>(url, { headers: this.headers });
+  }
+
+  getHtmlReport(websiteId: string): Observable<HTMLReport> {
+    const url = `${this.apiUrl}/report/${ReportFormat.HTML}/${websiteId}`;
+    return this.httpClient.get<HTMLReport>(url, { headers: this.headers });
   }
 }

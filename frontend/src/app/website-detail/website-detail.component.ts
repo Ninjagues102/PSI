@@ -5,6 +5,7 @@ import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { WebsitesComponent } from "../websites/websites.component";
 import { Page, PageStatus } from "../shared/models/page.model";
 import { PageDetailComponent } from "../page-detail/page-detail.component";
+import { HTMLReport, PDFReport } from "../shared/models/ReportFormat";
 
 export interface TableElememt{
   position:number;
@@ -44,11 +45,10 @@ export class WebsiteDetailComponent implements OnInit {
     private websitesComponent: WebsitesComponent,
     private dialog: MatDialog
   ){}
-  
+
   async ngOnInit(): Promise<void> {
     this.getWebsite()
   }
-  
 
   getWebsite(){
     if (!this.websiteId) return;
@@ -58,7 +58,7 @@ export class WebsiteDetailComponent implements OnInit {
       this.getData(website);
     });
   }
-  
+
   getData(website: Website){
     website.pages.forEach(page =>{
       var has_a = false;
@@ -90,9 +90,9 @@ export class WebsiteDetailComponent implements OnInit {
 
               }
             })
-            
-            
-          
+
+
+
         });
       }
     });
@@ -116,7 +116,7 @@ export class WebsiteDetailComponent implements OnInit {
   }
 
 
-  
+
   getWebsites(): void {
     this.webService.getWebsites()
       .subscribe(websites => {
@@ -139,5 +139,28 @@ export class WebsiteDetailComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_ => {
     })
+  }
+
+  downloadHtml() {
+    this.webService.getHtmlReport(this.websiteId).subscribe((htmlReport: HTMLReport) => {
+      const a = document.createElement("a");
+      a.href = `data:text/html;charset=utf-8,${encodeURIComponent(htmlReport.report)}`;
+      a.target = '_blank';
+      a.setAttribute("download", `report_${this.website?.domain}.html`)
+      a.dispatchEvent(new MouseEvent('click'));
+    })
+  }
+
+  downloadPdf() {
+    this.webService.getPdfReport(this.websiteId).subscribe((pdfReport: PDFReport) => {
+      const pdfBlob = new Blob([new Uint8Array(pdfReport.report.data)], { type: "application/pdf" });
+
+      const url = window.URL.createObjectURL(pdfBlob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = '_blank';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 }

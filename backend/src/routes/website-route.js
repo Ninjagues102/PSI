@@ -6,8 +6,12 @@ const router = express.Router();
 
 const Page = require("../models/page");
 const { AccessibilityController } = require("../controllers/AccessibilityController");
+const { ReportsController } = require("../controllers/ReportsController");
+
 
 const accessibilityController = new AccessibilityController()
+
+const reportsController = new ReportsController();
 
 const websiteController = require("../controllers/websiteController")
 
@@ -42,7 +46,6 @@ router.post("/", (req, res) => {
             console.error(err);
             res.sendStatus(500);
         });
-        
 });
 
 router.post("/process/:id", async (req, res) => {
@@ -69,6 +72,32 @@ router.get("/:id", (req, res) => {
             res.json(website);
         })
         .catch((err) => {
+            console.error(err);
+            res.sendStatus(500);
+        });
+});
+
+router.get("/page/:id", (req, res) => {
+    Page.findById(req.params.id)
+        .then(page => {
+            res.json(page);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.sendStatus(500);
+        });
+});
+
+router.get("/report/:format/:id", (req, res) => {
+    Website.findById(req.params.id)
+        .then(async website => {
+            const report = req.params.format === "pdf" ?
+                await reportsController.getPdfReport(website) :
+                reportsController.getHtmlReport(website);
+            const body = { report: report }
+            res.json(body)
+        })
+        .catch(err => {
             console.error(err);
             res.sendStatus(500);
         });

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+</head>
+<body>
+<h1>Website: {{websiteUrl}}</h1>
+<h2>Páginas:</h2>
+<ul>
+    {{#pages}}
+        <li>
+                <p><b>{{path}}</b></p><br>
+                <p>Estado: {{status}}</p>
+                <p>Última avaliação em {{lastEvaluationDate}}</p>
+        </li>
+    {{/pages}}
+</ul>
+<br>
+<br>
+<br>
+<h2>Indicadores de acessabilidade:</h2>
+<table>
+    <tr>
+        <th>Total</th>
+        <th>Percentagem</th>
+        <th>Tipo</th>
+    </tr>
+
+    <tr>
+        <th>{{pageStats.noErrors}}</th>
+        <th>{{pageStats.noErrorsPercentage}}</th>
+        <th>Sem erros</th>
+    </tr>
+    <tr>
+        <th>{{pageStats.errors}}</th>
+        <th>{{pageStats.noErrorsPercentage}}</th>
+        <th>Erros</th>
+    </tr>
+    <tr>
+        <th>{{pageStats.errorsA}}</th>
+        <th>{{pageStats.errorsAPercent}}</th>
+        <th>A</th>
+    </tr>
+    <tr>
+        <th>{{pageStats.errorsAA}}</th>
+        <th>{{pageStats.errorsAAPercent}}</th>
+        <th>AA</th>
+    </tr>
+    <tr>
+        <th>{{pageStats.errorsAA}}</th>
+        <th>{{pageStats.errorsAAAPercent}}</th>
+        <th>AAA</th>
+    </tr>
+</table>
+<br>
+<br>
+<h2>10 erros mais comuns:</h2>
+<ol>
+    {{#topErrors}}
+        <li>{{error}}</li>
+    {{/topErrors}}
+</ol>
+</body>
+</html>
