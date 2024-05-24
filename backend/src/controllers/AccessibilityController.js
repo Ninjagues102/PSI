@@ -25,6 +25,7 @@ class AccessibilityController {
                 .catch(err => reject(err));
 
             const pageReports = await this.getPageReports(domain, pagesToProcess);
+            console.log(pageReports[0].reports[0].tests[3].results);
             
             const now = new Date();
 
@@ -48,7 +49,6 @@ class AccessibilityController {
 
                         pageToUpdate.evaluation = { 
                             modules: pageReport.reports,
-                            tests_info: pageReport.tests,
                             percentagens: pageReport.per
                          };
                     });
@@ -82,12 +82,10 @@ class AccessibilityController {
                 await qualweb.stop();
                 const finalReport = this.buildReport(report);
                 const finalPer = this.buildPer(report);
-                console.log(finalTests[1].tests.length)
 
                 return {
                     pageId: page._id.toString(),
                     reports: finalReport,
-                    tests: finalTests,
                     per: finalPer
                 };
             } catch (err) {
@@ -112,52 +110,34 @@ class AccessibilityController {
                 })
                 .reduce((acc, module) => acc.concat([module]), [])
                 .flat();
+        }).flat();
+    }
+
+    handleTests(module){
+        return Object.values(module["assertions"])
+            .map(assertion => {
+                var conformidade = this.removeDups(assertion["metadata"]["success-criteria"].map(criteria => criteria["level"]) )
+                return{
+                    test_name: assertion["name"],
+                    outcome: assertion["metadata"]["outcome"],
+                    levels: conformidade,
+                    results: this.handleResults(assertion) 
+                }
             }).flat();
     }
     
-    handleTests(module){
-        var ola = Object.values(module["assertions"])
-            .map(assertion => {
-                return{
-                    test_name: assertion["name"],
-                    outcome: this.handleOutcome(assertion),
-                    /*fail_levels: this.handleModule(assertion),
-                    results: this.handleResults(assertion) */
-                }
-            }).flat();
-        /*console.log("-------------------handleTests")
-        console.log(ola)*/
-        return ola
+    removeDups(data){
+        return data.filter((value,index)=>data.indexOf(value)===index);
     }
-
-
-    handleOutcome(assertion){
-
-        var ola = Object.values(assertion["metadata"])
-            .map(metadata => {
-                return metadata["outcome"]
-            })
-        console.log("-------------------handleOutcome")
-        console.log(ola)
-        return ola
-    }
-
-    handleModule(assertion) {
-        return Object.values(assertion["metadata"])
-            .filter(metadata => metadata["outcome"] === "failed")
-            .map(metadata => {
-                return metadata["success-criteria"].map(criteria => criteria["level"]);
-            })
-            .flat();
-    }
-
-
+    
     handleResults(assertion) {
+        return  assertion["results"].map(result=>{
+            return {
+                verdict: result["verdict"],
+                htmlCode: result["elements"].map(element=>element["htmlCode"])
+            }
+        })
         
-        var ola =  Object.values(assertion["results"])
-        console.log("------------------handleResults")
-        console.log(ola)
-        return "ola"
     }
 
     buildPer(report) {
