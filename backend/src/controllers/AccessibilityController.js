@@ -110,6 +110,9 @@ class AccessibilityController {
                 .reduce((acc, module) => acc.concat([module]), [])
                 .flat();
         }).flat();
+        /*console.log("------------------buildReport")
+        console.log(ola)
+        return ola*/
     }
 
     handleTests(module){
