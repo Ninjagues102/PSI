@@ -81,8 +81,8 @@ class AccessibilityController {
                 const report = await qualweb.evaluate({ url: domain + page.relativePath });
                 await qualweb.stop();
                 const finalReport = this.buildReport(report);
-                const finalTests = this.buildTests(report);
                 const finalPer = this.buildPer(report);
+                console.log(finalTests[1].tests.length)
 
                 return {
                     pageId: page._id.toString(),
@@ -107,17 +107,43 @@ class AccessibilityController {
                 .map(([moduleName, module]) => {
                     return {
                         module: moduleName,
-                        fail_levels: this.handleModule(module)
+                        tests: this.handleTests(module)
                     };
                 })
                 .reduce((acc, module) => acc.concat([module]), [])
                 .flat();
             }).flat();
     }
-        
-    handleModule(module) {
-        return Object.values(module["assertions"])
-            .map(assertion => assertion["metadata"])
+    
+    handleTests(module){
+        var ola = Object.values(module["assertions"])
+            .map(assertion => {
+                return{
+                    test_name: assertion["name"],
+                    outcome: this.handleOutcome(assertion),
+                    /*fail_levels: this.handleModule(assertion),
+                    results: this.handleResults(assertion) */
+                }
+            }).flat();
+        /*console.log("-------------------handleTests")
+        console.log(ola)*/
+        return ola
+    }
+
+
+    handleOutcome(assertion){
+
+        var ola = Object.values(assertion["metadata"])
+            .map(metadata => {
+                return metadata["outcome"]
+            })
+        console.log("-------------------handleOutcome")
+        console.log(ola)
+        return ola
+    }
+
+    handleModule(assertion) {
+        return Object.values(assertion["metadata"])
             .filter(metadata => metadata["outcome"] === "failed")
             .map(metadata => {
                 return metadata["success-criteria"].map(criteria => criteria["level"]);
@@ -125,30 +151,13 @@ class AccessibilityController {
             .flat();
     }
 
-    buildTests(report) {
-        return Object.entries(report).map(([_, page]) => {
-            return Object.entries(page["modules"])
-                .filter(([moduleName, _]) => moduleName !== ignoreModule)
-                .map(([moduleName, module]) => {
-                    return {
-                        module: moduleName,
-                        list: this.handleTestes(module)
-                    };
-                })
-                .reduce((acc, module) => acc.concat([module]), [])
-                .flat();
-        }).flat();
-    }
 
-    handleTestes(module) {
-        return Object.values(module["assertions"])
-            .map(assertion => assertion["results"])
-            .map(results => results.map(r => {
-                return {
-                    verdict: r["verdict"],
-                    identificador: r["resultCode"],
-                }
-            })).flat();
+    handleResults(assertion) {
+        
+        var ola =  Object.values(assertion["results"])
+        console.log("------------------handleResults")
+        console.log(ola)
+        return "ola"
     }
 
     buildPer(report) {
