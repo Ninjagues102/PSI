@@ -5,14 +5,14 @@ export interface PageEvaluation{
             fail_levels:String[]
         }
     ],
-    testes_info?:[
+    testes_info:[
         {
-            module?: string,
-            tests?:
+            module: string,
+            tests:
             [
                 {
-                    verdict?: string,
-                    identificador?: string
+                    verdict: string,
+                    identificador: string
                 }
             ]
         }

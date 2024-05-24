@@ -1,8 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { Page, PageStatus } from '../shared/models/page.model';
+import { Page } from '../shared/models/page.model';
 import { TableElememt } from '../website-detail/website-detail.component';
-import { WebsiteService } from '../core/website.service';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Website } from '../shared/models/website.model';
 
 
@@ -13,47 +12,26 @@ import { Website } from '../shared/models/website.model';
 })
 
 
-
 export class PageDetailComponent {
   
-  TypeOfTests = {
-    ACT : "Regra ACT",
-    WCAG : "Técnica WCAG"
- };
-
-   
- TypeOfResults = {
-    PASSED : "Passado",
-    WARNNG : "Aviso",
-    FAILED : "Falhado",
-    NOTAPPLIABLE : "Não aplicável"
-  }
-
-  ResultsLevels = {
-    A : "A",
-    AA : "AA",
-    AAA : "AAA",
-  }
-
-
   displayedColumns: string[] = ['total', 'percentagem', 'type'];
   columnsToDisplay: string[] = this.displayedColumns.slice();
   data: TableElememt[] = [];
   page ?: Page;
-  failed = 0
-  passed = 0
-  warning = 0
-  inapplicable = 0
-  total = 0
-  protected activeFilter: string[] = [];
+  failed = 0;
+  passed = 0;
+  warning = 0;
+  inapplicable = 0;
+  total = 0;
+  
+  TypeOfTests = [{}];
+  TypeOfResults = [{}];
+  ResultsLevels = [{}];
+  protected activeFilters: string[] = [];
   testToBePresented: any;
   tests: any;
-  filters = [{ status:  PageStatus.REGISTERED },
-             { status:  PageStatus.NON_COMPLIANT}
-  ];
 
   constructor(
-    private webService: WebsiteService,
     @Inject(MAT_DIALOG_DATA) public info: [string, Website]
   ){}
   
@@ -75,6 +53,9 @@ export class PageDetailComponent {
     this.inapplicable = page.evaluation.percentagens[0].inapplicable
     this.total = this.failed + this.passed + this.warning + this.inapplicable
 
+    this.tests = page.evaluation.testes_info[0].tests[0]
+    this.testToBePresented = this.tests
+
     this.data = [
       {position:1, total: this.passed, percentagem: (this.passed/this.total) * 100, type: "Passed"},
       {position:2, total: this.failed, percentagem: (this.failed/this.total) * 100, type: "Failed"},
@@ -83,13 +64,7 @@ export class PageDetailComponent {
     ]
   }
   
-  clearFilters() {
-    this.activeFilter = this.activeFilter.filter(filter => filter !== status)
-    this.testToBePresented = this.tests;
-  }
+  clearFilter() {}
   
-  onFilterChange(status: string) {
-    this.activeFilter?.push(status);
-    this.testToBePresented = this.tests.filter((test: { status: string; }) => status === test.status);
-  }
+  onFilterChange() {}
 }
