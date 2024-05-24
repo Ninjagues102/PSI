@@ -23,64 +23,61 @@
         </mat-tab>
         <mat-tab label="Lista testes">
           <div id="menuFiltros">
-            <button [matMenuTriggerData]="{activeFilter: activeFilter}" [matMenuTriggerFor]="filtersElement" extended mat-fab>
+            <button [matMenuTriggerData]="{activeFilter: activeFilters}" [matMenuTriggerFor]="filtersElement" extended mat-fab>
               <mat-icon>filter_list</mat-icon>
               <span>Tipo de teste</span>
             </button>
             <mat-menu #filtersElement="matMenu">
               <ng-template let-activeFilter="activeFilter" matMenuContent>
-                <button (click)="clearFilters()" *ngIf="activeFilter" mat-menu-item>
+                <button (click)="clearFilter()" *ngIf="activeFilter" mat-menu-item>
                   <mat-icon>filter_list_off</mat-icon>
                   <span>Remover filtros</span>
                 </button>
                 <mat-divider *ngIf="activeFilter"></mat-divider>
-                <button (click)="onFilterChange(filter.status)" *ngFor="let filter of filters" mat-menu-item>
-                  <span>{{ filter.status }}</span>
+                <button (click)="onFilterChange()" *ngFor="let filter of TypeOfTests" mat-menu-item>
+                  <span>{{ filter}}</span>
                 </button>
               </ng-template>
             </mat-menu>
   
-            <button [matMenuTriggerData]="{activeFilter: activeFilter}" [matMenuTriggerFor]="filtersElement" extended mat-fab>
+            <button [matMenuTriggerData]="{activeFilter: activeFilters}" [matMenuTriggerFor]="filtersElement" extended mat-fab>
               <mat-icon>filter_list</mat-icon>
               <span>Resultados</span>
             </button>
             <mat-menu #filtersElement="matMenu">
               <ng-template let-activeFilter="activeFilter" matMenuContent>
-                <button (click)="clearFilters()" *ngIf="activeFilter" mat-menu-item>
+                <button (click)="clearFilter()" *ngIf="activeFilter" mat-menu-item>
                   <mat-icon>filter_list_off</mat-icon>
                   <span>Remover filtros</span>
                 </button>
                 <mat-divider *ngIf="activeFilter"></mat-divider>
-                <button (click)="onFilterChange(filter.status)" *ngFor="let filter of filters" mat-menu-item>
-                  <span>{{ filter.status }}</span>
+                <button (click)="onFilterChange()" *ngFor="let filter of TypeOfResults" mat-menu-item>
+                  <span>{{ filter }}</span>
                 </button>
               </ng-template>
             </mat-menu>
   
-            <button [matMenuTriggerData]="{activeFilter: activeFilter}" [matMenuTriggerFor]="filtersElement" extended mat-fab>
+            <button [matMenuTriggerData]="{activeFilter: activeFilters}" [matMenuTriggerFor]="filtersElement" extended mat-fab>
               <mat-icon>filter_list</mat-icon>
               <span>Nível de conformidade</span>
             </button>
             <mat-menu #filtersElement="matMenu">
               <ng-template let-activeFilter="activeFilter" matMenuContent>
-                <button (click)="clearFilters()" *ngIf="activeFilter" mat-menu-item>
+                <button (click)="clearFilter()" *ngIf="activeFilter" mat-menu-item>
                   <mat-icon>filter_list_off</mat-icon>
                   <span>Remover filtros</span>
                 </button>
                 <mat-divider *ngIf="activeFilter"></mat-divider>
-                <button (click)="onFilterChange(filter.status)" *ngFor="let filter of filters" mat-menu-item>
-                  <span>{{ filter.status }}</span>
+                <button (click)="onFilterChange()" *ngFor="let filter of ResultsLevels" mat-menu-item>
+                  <span>{{ filter }}</span>
                 </button>
               </ng-template>
             </mat-menu>
           </div>
 
           <div class="wrapper">
-            <div class="website-list">
-              <span *ngFor="let tests of testToBePresented" appearance="raised">
-                  test.name
-                  test.result
-              </span>
+            <div class="tests-list">
+              <span *ngFor="let tests of testToBePresented" appearance="raised"></span>
             </div>
           </div>
 
