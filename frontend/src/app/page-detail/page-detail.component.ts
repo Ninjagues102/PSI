@@ -129,14 +129,20 @@ export class PageDetailComponent {
   }
 
 
-  clearFilter() {}
+  clearFilter(filter : any) {
+    this.dataToBePresented = this.data2
+    this.filtros = this.filtros.filter(f => f !== filter)
+    this.filtrar()
+  }
   
   onFilterOutcome(outcome: Outcome) {
+    this.clearFilter(this.activeFilterOutcome)
     this.activeFilterOutcome = outcome;
     this.filtros.push(outcome);
     this.filtrar();
   }
   onFilterType(type: Type) {
+    this.clearFilter(this.activeFilterType)
     this.activeFilterType = type;
     this.filtros.push(type);
     this.filtrar();
@@ -144,14 +150,12 @@ export class PageDetailComponent {
   onFilterLevel(level: Level) {}
 
   filtrar(){
-    console.log(this.filtros)
-    this.dataToBePresented = this.data2
     this.filtros.forEach(f=>{
-      if(this.activeFilterOutcome){
-        this.dataToBePresented = this.dataToBePresented.filter(data=>data.outcome==f)
+      if(this.activeFilterOutcome == f){
+        this.dataToBePresented = this.data2.filter(data=>data.outcome==f) 
       }
-      if(this.activeFilterType){
-        this.dataToBePresented = this.dataToBePresented.filter(data=>data.module==f)
+      if(this.activeFilterType == f){
+        this.dataToBePresented = this.data2.filter(data=>data.module==f)
       }
     })
   }

@@ -29,7 +29,7 @@
             </button>
             <mat-menu #filtersElement1="matMenu">
               <ng-template let-activeFilter1="activeFilter1" matMenuContent>
-                <button (click)="clearFilter()" *ngIf="activeFilter1" mat-menu-item>
+                <button (click)="clearFilter(activeFilter1)" *ngIf="activeFilter1" mat-menu-item>
                   <mat-icon>filter_list_off</mat-icon>
                   <span>Remover filtros</span>
                 </button>
@@ -40,13 +40,13 @@
               </ng-template>
             </mat-menu>
   
-            <button [matMenuTriggerData]="{activeFilter2: activeFilterLevel}" [matMenuTriggerFor]="filtersElement2" extended mat-fab>
+            <button [matMenuTriggerData]="{activeFilter2: activeFilterOutcome}" [matMenuTriggerFor]="filtersElement2" extended mat-fab>
               <mat-icon>filter_list</mat-icon>
               <span>Resultados</span>
             </button>
             <mat-menu #filtersElement2="matMenu">
               <ng-template let-activeFilter2="activeFilter2" matMenuContent>
-                <button (click)="clearFilter()" *ngIf="activeFilter2" mat-menu-item>
+                <button (click)="clearFilter(activeFilter2)" *ngIf="activeFilter2" mat-menu-item>
                   <mat-icon>filter_list_off</mat-icon>
                   <span>Remover filtros</span>
                 </button>
@@ -57,13 +57,13 @@
               </ng-template>
             </mat-menu>
   
-            <button [matMenuTriggerData]="{activeFilter3: activeFilterOutcome}" [matMenuTriggerFor]="filtersElement3" extended mat-fab>
+            <button [matMenuTriggerData]="{activeFilter3: activeFilterLevel}" [matMenuTriggerFor]="filtersElement3" extended mat-fab>
               <mat-icon>filter_list</mat-icon>
               <span>Nível de conformidade</span>
             </button>
             <mat-menu #filtersElement3="matMenu">
               <ng-template let-activeFilter3="activeFilter3" matMenuContent>
-                <button (click)="clearFilter()" *ngIf="activeFilter3" mat-menu-item>
+                <button (click)="clearFilter(activeFilter3)" *ngIf="activeFilter3" mat-menu-item>
                   <mat-icon>filter_list_off</mat-icon>
                   <span>Remover filtros</span>
                 </button>
