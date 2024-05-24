@@ -19,8 +19,6 @@ export class WebsiteService {
   });
 
 
-
-  constructor(private httpClient: HttpClient, private dialog: MatDialog) {
   constructor(private httpClient: HttpClient, private dialog: MatDialog) {
     this.apiUrl = `${environment.backend_url}/website`;
   }
